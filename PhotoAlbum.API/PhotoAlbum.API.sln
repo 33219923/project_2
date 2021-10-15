@@ -3,19 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31729.503
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "3_PhotoAlbum.API", "PhotoAlbum.API\3_PhotoAlbum.API.csproj", "{8C1E9E0B-73DA-4487-9DEC-CC5D27AA5933}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotoAlbum.API", "PhotoAlbum.API\PhotoAlbum.API.csproj", "{8C1E9E0B-73DA-4487-9DEC-CC5D27AA5933}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "2_PhotoAlbum.ClientPortal", "PhotoAlbum.ClientPortal\2_PhotoAlbum.ClientPortal.csproj", "{093CFD8C-C021-41F9-8F23-18222D55D727}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotoAlbum.ClientPortal", "PhotoAlbum.ClientPortal\PhotoAlbum.ClientPortal.csproj", "{093CFD8C-C021-41F9-8F23-18222D55D727}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "4_PhotoAlbum.Logic", "PhotoAlbum.Logic\4_PhotoAlbum.Logic.csproj", "{EA65A77F-B043-4BFD-8BAA-80659C898AAA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotoAlbum.Logic", "PhotoAlbum.Logic\PhotoAlbum.Logic.csproj", "{EA65A77F-B043-4BFD-8BAA-80659C898AAA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "1_PhotoAlbum.Shared", "PhotoAlbum.Shared\1_PhotoAlbum.Shared.csproj", "{DD811709-4DF1-4F4F-B78F-A07A838B8DEC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotoAlbum.Shared", "PhotoAlbum.Shared\PhotoAlbum.Shared.csproj", "{DD811709-4DF1-4F4F-B78F-A07A838B8DEC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "5_PhotoAlbum.Repository", "PhotoAlbum.Repository\5_PhotoAlbum.Repository.csproj", "{BA00BC7C-D5FE-4BD1-BEA3-F22406527FFF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotoAlbum.Repository", "PhotoAlbum.Repository\PhotoAlbum.Repository.csproj", "{BA00BC7C-D5FE-4BD1-BEA3-F22406527FFF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "6_PhotoAlbum.Data", "PhotoAlbum.Data\6_PhotoAlbum.Data.csproj", "{59BFBF97-9F60-4FBD-BFF4-B9117FB59408}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotoAlbum.Data", "PhotoAlbum.Data\PhotoAlbum.Data.csproj", "{59BFBF97-9F60-4FBD-BFF4-B9117FB59408}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "7_PhotoAlbum.Test", "7_PhotoAlbum.Test\7_PhotoAlbum.Test.csproj", "{941AEE69-EDE7-4C50-97F7-256B7080BDBC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotoAlbum.API.Test", "PhotoAlbum.API.Test\PhotoAlbum.API.Test.csproj", "{E8D028D7-8517-4092-BFB6-CE7B06373CCC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,10 +47,10 @@ Global
 		{59BFBF97-9F60-4FBD-BFF4-B9117FB59408}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{59BFBF97-9F60-4FBD-BFF4-B9117FB59408}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{59BFBF97-9F60-4FBD-BFF4-B9117FB59408}.Release|Any CPU.Build.0 = Release|Any CPU
-		{941AEE69-EDE7-4C50-97F7-256B7080BDBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{941AEE69-EDE7-4C50-97F7-256B7080BDBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{941AEE69-EDE7-4C50-97F7-256B7080BDBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{941AEE69-EDE7-4C50-97F7-256B7080BDBC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8D028D7-8517-4092-BFB6-CE7B06373CCC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8D028D7-8517-4092-BFB6-CE7B06373CCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8D028D7-8517-4092-BFB6-CE7B06373CCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8D028D7-8517-4092-BFB6-CE7B06373CCC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

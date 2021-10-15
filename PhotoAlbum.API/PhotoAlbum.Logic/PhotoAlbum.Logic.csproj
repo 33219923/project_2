@@ -9,4 +9,8 @@
     <Folder Include="Implentations\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\PhotoAlbum.Repository\PhotoAlbum.Repository.csproj" />
+  </ItemGroup>
+
 </Project>

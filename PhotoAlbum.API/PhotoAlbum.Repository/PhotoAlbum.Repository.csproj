@@ -9,4 +9,8 @@
     <Folder Include="Interfaces\Base\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\PhotoAlbum.Data\PhotoAlbum.Data.csproj" />
+  </ItemGroup>
+
 </Project>
