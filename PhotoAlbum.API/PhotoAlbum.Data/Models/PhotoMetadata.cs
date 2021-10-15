@@ -26,11 +26,5 @@ namespace PhotoAlbum.Data.Models
 
         public NpgsqlTsVector SearchVector { get; set; }
 
-
-        public string SearchString
-        {
-            get { return Tags + "" + Geolocation + " " + CreatedDate.ToString(); }
-            set { SearchString = value; }
-        }
     }
 }
