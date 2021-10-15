@@ -2,11 +2,14 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using PhotoAlbum.Data;
+using PhotoAlbum.Shared.Constants;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,11 +30,21 @@ namespace PhotoAlbum.API
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "PhotoAlbum.API", Version = "v1" });
             });
+
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+
+            services.AddDbContext<ApplicationDbContext>(options =>
+            {
+                options.UseNpgsql(Configuration.GetValue<string>(AppSettings.DB_CONNECTION), x =>
+                {
+                    x.MigrationsAssembly("PhotoAlbum.Data");
+                });
+            }, ServiceLifetime.Transient);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
