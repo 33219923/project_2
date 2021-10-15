@@ -3,19 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31729.503
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotoAlbum.API", "PhotoAlbum.API\PhotoAlbum.API.csproj", "{8C1E9E0B-73DA-4487-9DEC-CC5D27AA5933}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhotoAlbum.API", "PhotoAlbum.API\PhotoAlbum.API.csproj", "{8C1E9E0B-73DA-4487-9DEC-CC5D27AA5933}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotoAlbum.ClientPortal", "PhotoAlbum.ClientPortal\PhotoAlbum.ClientPortal.csproj", "{093CFD8C-C021-41F9-8F23-18222D55D727}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhotoAlbum.ClientPortal", "PhotoAlbum.ClientPortal\PhotoAlbum.ClientPortal.csproj", "{093CFD8C-C021-41F9-8F23-18222D55D727}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotoAlbum.Logic", "PhotoAlbum.Logic\PhotoAlbum.Logic.csproj", "{EA65A77F-B043-4BFD-8BAA-80659C898AAA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhotoAlbum.Logic", "PhotoAlbum.Logic\PhotoAlbum.Logic.csproj", "{EA65A77F-B043-4BFD-8BAA-80659C898AAA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotoAlbum.Shared", "PhotoAlbum.Shared\PhotoAlbum.Shared.csproj", "{DD811709-4DF1-4F4F-B78F-A07A838B8DEC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhotoAlbum.Shared", "PhotoAlbum.Shared\PhotoAlbum.Shared.csproj", "{DD811709-4DF1-4F4F-B78F-A07A838B8DEC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotoAlbum.Repository", "PhotoAlbum.Repository\PhotoAlbum.Repository.csproj", "{BA00BC7C-D5FE-4BD1-BEA3-F22406527FFF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhotoAlbum.Repository", "PhotoAlbum.Repository\PhotoAlbum.Repository.csproj", "{BA00BC7C-D5FE-4BD1-BEA3-F22406527FFF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotoAlbum.Data", "PhotoAlbum.Data\PhotoAlbum.Data.csproj", "{59BFBF97-9F60-4FBD-BFF4-B9117FB59408}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhotoAlbum.Data", "PhotoAlbum.Data\PhotoAlbum.Data.csproj", "{59BFBF97-9F60-4FBD-BFF4-B9117FB59408}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotoAlbum.API.Test", "PhotoAlbum.API.Test\PhotoAlbum.API.Test.csproj", "{E8D028D7-8517-4092-BFB6-CE7B06373CCC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhotoAlbum.API.Test", "PhotoAlbum.API.Test\PhotoAlbum.API.Test.csproj", "{E8D028D7-8517-4092-BFB6-CE7B06373CCC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
