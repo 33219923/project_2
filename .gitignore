@@ -349,3 +349,4 @@ MigrationBackup/
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
 /PhotoAlbum.API/PhotoAlbum.ClientPortal/ClientApp/package-lock.json
+/PhotoAlbum.API/PhotoAlbum.API/appsettings.Development.json

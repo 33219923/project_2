@@ -6,12 +6,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PhotoAlbum.Data.Models
 {
-    public class Photo : IBaseEntity, ICreatedTracking
+    public class Album : IBaseEntity, ICreatedTracking
     {
         [Key]
         public Guid Id { get; set; }
 
-        public string Filename { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
 
 
         [ForeignKey(nameof(CreatedByUser))]
@@ -21,14 +22,7 @@ namespace PhotoAlbum.Data.Models
         public DateTimeOffset CreatedDate { get; set; }
 
 
-        public PhotoMetadata Metadata { get; set; }
-
-
-        [ForeignKey(nameof(Album))]
-        public Guid? AlbumId { get; set; }
-        public Album Album { get; set; }
-
-
-        public ICollection<SharedPhoto> SharedWith { get; set; }
+        public ICollection<Photo> Photos { get; set; }
+        public ICollection<SharedAlbum> SharedWith { get; set; }
     }
 }

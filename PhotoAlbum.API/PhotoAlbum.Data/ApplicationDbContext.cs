@@ -1,17 +1,22 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using PhotoAlbum.Data.Interfaces;
 using PhotoAlbum.Data.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PhotoAlbum.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, Guid>
     {
-        public ApplicationDbContext(DbContextOptions<IdentityDbContext> options) : base(options)
+        public virtual DbSet<Album> Albums { get; set; }
+        public virtual DbSet<Photo> Photos { get; set; }
+        public virtual DbSet<PhotoMetadata> PhotoMetadatas { get; set; }
+
+        public virtual DbSet<SharedAlbum> SharedAlbums { get; set; }
+        public virtual DbSet<SharedPhoto> SharedPhotos { get; set; }
+
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
         }
 
@@ -20,15 +25,42 @@ namespace PhotoAlbum.Data
             base.OnModelCreating(builder);
 
             //Setting up vector searching using PostgresSql built in full text search
-            builder.Entity<Photo>()
-                .HasGeneratedTsVectorColumn(p => p.SearchVector, "english", p => new { }) //TODO: Update the searchable columns
-                .HasIndex(p => p.SearchVector)
+            builder.Entity<ApplicationUser>()
+               .HasGeneratedTsVectorColumn(x => x.SearchVector, "english", x => new { x.Name, x.Surname })
+               .HasIndex(x => x.SearchVector)
+               .HasMethod("GIN");
+
+
+            builder.Entity<PhotoMetadata>()
+                .HasGeneratedTsVectorColumn(x => x.SearchVector, "english", x => x.SearchString)
+                .HasIndex(x => x.SearchVector)
                 .HasMethod("GIN");
 
             //Example: Searching on the vector 
             //var npgsql = context.Products.Where(p => p.SearchVector.Matches("Npgsql")).ToList();
+
+            //Setting composite primary keys for link tables
+            builder.Entity<SharedAlbum>().HasKey(x => new { x.UserId, x.AlbumId });
+            builder.Entity<SharedPhoto>().HasKey(x => new { x.UserId, x.PhotoId });
         }
 
-        public virtual DbSet<Photo> Photos { get; set; }
+        public override int SaveChanges()
+        {
+            var entries = ChangeTracker
+                .Entries()
+                .Where(e => e.Entity is ICreatedTracking && (
+                        e.State == EntityState.Added
+                        || e.State == EntityState.Modified));
+
+            foreach (var entityEntry in entries)
+            {
+                if (entityEntry.State == EntityState.Added)
+                {
+                    ((ICreatedTracking)entityEntry.Entity).CreatedDate = DateTimeOffset.UtcNow;
+                }
+            }
+
+            return base.SaveChanges();
+        }
     }
 }

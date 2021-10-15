@@ -36,11 +36,13 @@ namespace PhotoAlbum.API
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "PhotoAlbum.API", Version = "v1" });
             });
 
-            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+            var appSettings = Configuration.GetSection("AppSettings");
+
+            services.Configure<AppSettings>(appSettings);
 
             services.AddDbContext<ApplicationDbContext>(options =>
             {
-                options.UseNpgsql(Configuration.GetValue<string>(AppSettings.DB_CONNECTION), x =>
+                options.UseNpgsql(appSettings.GetValue<string>(AppSettings.DB_CONNECTION), x =>
                 {
                     x.MigrationsAssembly("PhotoAlbum.Data");
                 });
@@ -48,7 +50,7 @@ namespace PhotoAlbum.API
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ApplicationDbContext db)
         {
             if (env.IsDevelopment())
             {
@@ -56,6 +58,9 @@ namespace PhotoAlbum.API
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "PhotoAlbum.API v1"));
             }
+
+            //Running migration
+            db.Database.Migrate();
 
             app.UseHttpsRedirection();
 
