@@ -1,16 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace PhotoAlbum.API.Controllers
 {
-    public class UserController : Controller
+    [ApiController]
+    [Route("[controller]")]
+    public class UserController : ControllerBase
     {
-        public IActionResult Index()
+        [HttpGet]
+        public ActionResult<string> Get()
         {
-            return View();
+            return Ok("UserController is working");
         }
     }
 }
