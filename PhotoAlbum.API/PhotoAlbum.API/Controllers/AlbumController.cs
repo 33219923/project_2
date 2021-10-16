@@ -1,26 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using PhotoAlbum.API.Controllers.Base;
 using PhotoAlbum.Logic.Interfaces;
 
 namespace PhotoAlbum.API.Controllers
 {
+    [Route("api/[controller]")]
     [ApiController]
-    [Route("[controller]")]
-    public class AlbumController : ControllerBase
+    public class AlbumController : BaseController<IAlbumService>
     {
         private readonly ILogger _logger;
         private readonly IAlbumService _albumService;
 
-        public AlbumController(ILogger<AlbumController> logger, IAlbumService albumService)
+        public AlbumController(ILogger<AlbumController> logger, IAlbumService albumService) : base(logger, albumService)
         {
             _logger = logger;
             _albumService = albumService;
-        }
-
-        [HttpGet]
-        public ActionResult<string> Get()
-        {
-            return Ok("AlbumController is working");
         }
     }
 }
