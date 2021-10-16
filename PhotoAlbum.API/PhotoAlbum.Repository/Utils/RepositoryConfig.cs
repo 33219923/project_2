@@ -8,12 +8,12 @@ namespace PhotoAlbum.Repository.Utils
     {
         public static void AddRepositories(this IServiceCollection services)
         {
-            services.AddSingleton<IAlbumRepository, AlbumRepository>();
-            services.AddSingleton<IPhotoRepository, PhotoRepository>();
-            services.AddSingleton<IPhotoMetadataRepository, PhotoMetadataRepository>();
-            services.AddSingleton<ISharedAlbumRepository, SharedAlbumRepository>();
-            services.AddSingleton<ISharedPhotoRepository, SharedPhotoRepository>();
-            services.AddSingleton<IUserRepository, UserRepository>();
+            services.AddScoped<IAlbumRepository, AlbumRepository>();
+            services.AddScoped<IPhotoRepository, PhotoRepository>();
+            services.AddScoped<IPhotoMetadataRepository, PhotoMetadataRepository>();
+            services.AddScoped<ISharedAlbumRepository, SharedAlbumRepository>();
+            services.AddScoped<ISharedPhotoRepository, SharedPhotoRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
         }
     }
 }
