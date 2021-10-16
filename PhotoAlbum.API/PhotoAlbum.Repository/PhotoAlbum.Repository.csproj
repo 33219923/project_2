@@ -5,11 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Implementations\Base\" />
-    <Folder Include="Interfaces\Base\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\PhotoAlbum.Data\PhotoAlbum.Data.csproj" />
   </ItemGroup>
 
