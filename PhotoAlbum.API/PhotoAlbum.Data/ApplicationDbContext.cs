@@ -36,9 +36,6 @@ namespace PhotoAlbum.Data
                 .HasIndex(x => x.SearchVector)
                 .HasMethod("GIN");
 
-            //Example: Searching on the vector 
-            //var npgsql = context.Products.Where(p => p.SearchVector.Matches("Npgsql")).ToList();
-
             //Setting composite primary keys for link tables
             builder.Entity<SharedAlbum>().HasKey(x => new { x.UserId, x.AlbumId });
             builder.Entity<SharedPhoto>().HasKey(x => new { x.UserId, x.PhotoId });

@@ -1,34 +1,50 @@
-﻿using PhotoAlbum.Repository.Interfaces.Base;
+﻿using Microsoft.EntityFrameworkCore;
+using PhotoAlbum.Data;
+using PhotoAlbum.Repository.Interfaces.Base;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace PhotoAlbum.Repository.Implementations.Base
 {
     public class BaseRepository<T> : IBaseRepository<T> where T : class
     {
-        public virtual T Add(T entity)
+        private readonly ApplicationDbContext _db;
+
+        public BaseRepository(ApplicationDbContext db)
         {
-            throw new NotImplementedException();
+            _db = db;
         }
 
-        public virtual Guid Delete(T entity)
+        public T Get(Func<T, bool> filter)
         {
-            throw new NotImplementedException();
+            return _db.Set<T>().AsNoTracking().FirstOrDefault(filter);
         }
 
-        public virtual T GetById(Guid id)
+        public List<T> ListAll(Func<T, bool> filter = null)
         {
-            throw new NotImplementedException();
+            return _db.Set<T>().AsNoTracking().Where(filter).ToList();
         }
 
-        public virtual List<T> ListAll()
+        public void Add(T entity)
         {
-            throw new NotImplementedException();
+            _db.Set<T>().Add(entity);
         }
 
-        public virtual T Update(T entity)
+        public void Update(T entity)
         {
-            throw new NotImplementedException();
+            _db.Set<T>().Update(entity);
+        }
+
+        public void Delete(T entity)
+        {
+            _db.Set<T>().Remove(entity);
+        }
+
+        public void Delete(Func<T, bool> primaryKey)
+        {
+            var entitiesToRemove = _db.Set<T>().Where(primaryKey);
+            _db.Set<T>().RemoveRange(entitiesToRemove);
         }
     }
 }

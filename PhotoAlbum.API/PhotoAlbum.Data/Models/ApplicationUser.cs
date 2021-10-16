@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace PhotoAlbum.Data.Models
 {
-    public class ApplicationUser : IdentityUser<Guid>, IBaseEntity, ICreatedTracking
+    public class ApplicationUser : IdentityUser<Guid>, IBaseEntity, ICreatedTracking, ISearchable
     {
         public string Name { get; set; }
         public string Surname { get; set; }
