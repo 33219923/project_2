@@ -11,7 +11,7 @@ using PhotoAlbum.Data;
 namespace PhotoAlbum.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20211015152337_Initial")]
+    [Migration("20211016020345_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -299,14 +299,11 @@ namespace PhotoAlbum.Data.Migrations
                     b.Property<string>("Geolocation")
                         .HasColumnType("text");
 
-                    b.Property<string>("SearchString")
-                        .HasColumnType("text");
-
                     b.Property<NpgsqlTsVector>("SearchVector")
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("tsvector")
                         .HasAnnotation("Npgsql:TsVectorConfig", "english")
-                        .HasAnnotation("Npgsql:TsVectorProperties", new[] { "SearchString" });
+                        .HasAnnotation("Npgsql:TsVectorProperties", new[] { "Tags", "Geolocation" });
 
                     b.Property<string>("Tags")
                         .HasColumnType("text");
