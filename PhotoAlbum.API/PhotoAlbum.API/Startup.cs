@@ -46,7 +46,7 @@ namespace PhotoAlbum.API
                 {
                     x.MigrationsAssembly("PhotoAlbum.Data");
                 });
-            }, ServiceLifetime.Transient);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -59,7 +59,7 @@ namespace PhotoAlbum.API
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "PhotoAlbum.API v1"));
             }
 
-            //Running migration
+            //Running automatic migration
             db.Database.Migrate();
 
             app.UseHttpsRedirection();
