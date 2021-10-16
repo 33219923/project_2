@@ -1,8 +1,11 @@
 ﻿using PhotoAlbum.Repository.Interfaces.Base;
 
+using AlbumDto = PhotoAlbum.Shared.Models.Album;
+using AlbumModel = PhotoAlbum.Data.Models.Album;
+
 namespace PhotoAlbum.Repository.Interfaces
 {
-    public interface IAlbumRepository<T> : IBaseRepository<T> where T : class
+    public interface IAlbumRepository : IBaseRepository<AlbumDto, AlbumModel>
     {
     }
 }
