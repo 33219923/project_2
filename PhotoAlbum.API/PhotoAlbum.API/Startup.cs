@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using PhotoAlbum.Data;
+using PhotoAlbum.Logic.Utils;
 using PhotoAlbum.Repository.Utils;
 using PhotoAlbum.Shared.Constants;
 using System.Linq;
@@ -41,6 +42,7 @@ namespace PhotoAlbum.API
             });
 
             services.AddAutoMapConfig();
+            services.AddLogicServices();
             services.AddRepositories();
         }
 
