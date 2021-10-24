@@ -6,11 +6,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using Newtonsoft.Json;
 using PhotoAlbum.Data;
 using PhotoAlbum.Repository.Utils;
 using PhotoAlbum.Shared.Constants;
-using System.Linq;
 
 namespace PhotoAlbum.API
 {
@@ -26,20 +24,15 @@ namespace PhotoAlbum.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllers().AddNewtonsoftJson();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "PhotoAlbum.API", Version = "v1" });
             });
 
-            var appSettings = Configuration.GetSection("Values");
-
-            services.Configure<AppSettings>(appSettings);
-
             services.AddDbContext<ApplicationDbContext>(options =>
             {
-                options.UseNpgsql(appSettings.GetValue<string>(AppSettings.DB_CONNECTION), x =>
+                options.UseNpgsql(Configuration[AppSettings.DB_CONNECTION], x =>
                 {
                     x.MigrationsAssembly("PhotoAlbum.Data");
                 });
@@ -51,14 +44,15 @@ namespace PhotoAlbum.API
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app,
-            IWebHostEnvironment env, 
+            IWebHostEnvironment env,
             ApplicationDbContext db,
             ILoggerFactory loggerFactory
             )
         {
 
             var logger = loggerFactory.CreateLogger<Startup>();
-            logger?.LogInformation("Configuration: {configuration}", JsonConvert.SerializeObject(Configuration.AsEnumerable().ToList(), Formatting.Indented));
+            //logger?.LogInformation("Configuration: {configuration}", JsonConvert.SerializeObject(Configuration.AsEnumerable().ToList(), Formatting.Indented));
+            logger?.LogInformation("ConnectionString: {c}", Configuration[AppSettings.DB_CONNECTION]);
 
             if (env.IsDevelopment())
             {
