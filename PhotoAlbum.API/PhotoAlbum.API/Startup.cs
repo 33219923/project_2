@@ -4,14 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using Newtonsoft.Json;
 using PhotoAlbum.Data;
 using PhotoAlbum.Logic.Utils;
 using PhotoAlbum.Repository.Utils;
 using PhotoAlbum.Shared.Constants;
-using System.Linq;
 
 namespace PhotoAlbum.API
 {
@@ -47,21 +44,15 @@ namespace PhotoAlbum.API
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app,
-            IWebHostEnvironment env,
-            ApplicationDbContext db,
-            ILoggerFactory loggerFactory
-            )
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ApplicationDbContext db)
         {
-
-            var logger = loggerFactory.CreateLogger<Startup>();
-            logger?.LogInformation("Configuration: {configuration}", JsonConvert.SerializeObject(Configuration.AsEnumerable().ToList(), Formatting.Indented));
-            logger?.LogInformation("ConnectionString: {c}", Configuration[AppSettings.DB_CONNECTION]);
+            //Temporarily expose swagger endpoint in deployment
+            app.UseSwagger();
 
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
+                //app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "PhotoAlbum.API v1"));
             }
 
