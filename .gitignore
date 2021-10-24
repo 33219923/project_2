@@ -350,3 +350,4 @@ MigrationBackup/
 .ionide/
 /PhotoAlbum.API/PhotoAlbum.ClientPortal/ClientApp/package-lock.json
 /PhotoAlbum.API/PhotoAlbum.API/appsettings.Development.json
+/PhotoAlbum.API/PhotoAlbum.ClientPortal/appsettings.Development.json
