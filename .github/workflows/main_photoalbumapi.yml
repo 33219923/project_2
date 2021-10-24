@@ -21,21 +21,18 @@ jobs:
         with:
           dotnet-version: '5.0.x'
           include-prerelease: true
-      
-      - name: Set work directory
-        run: cd PhotoAlbum.API/
 
       - name: Build with dotnet
-        run: dotnet build --configuration Release
+        run: dotnet build --configuration Release -o ${{env.DOTNET_ROOT}}/PhotoAlbum.API
 
       - name: dotnet publish
-        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/PhotoAlbum.API
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
           name: .net-app
-          path: ${{env.DOTNET_ROOT}}/myapp
+          path: ${{env.DOTNET_ROOT}}/PhotoAlbum.API
 
   deploy:
     runs-on: ubuntu-latest
