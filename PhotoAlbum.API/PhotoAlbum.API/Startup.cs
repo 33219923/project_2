@@ -30,7 +30,7 @@ namespace PhotoAlbum.API
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "PhotoAlbum.API", Version = "v1" });
             });
 
-            var appSettings = Configuration.GetSection("AppSettings");
+            var appSettings = Configuration.GetSection("Values");
 
             services.Configure<AppSettings>(appSettings);
 
