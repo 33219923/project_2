@@ -1,11 +1,8 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.IO;
 
 namespace PhotoAlbum.ClientPortal
 {
@@ -18,6 +15,13 @@ namespace PhotoAlbum.ClientPortal
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                 .ConfigureAppConfiguration((hostingContext, config) =>
+                 {
+                     config.SetBasePath(Directory.GetParent(AppContext.BaseDirectory).FullName);
+                     config.AddJsonFile("appsettings.json", false);
+                     config.AddJsonFile("appsettings.Development.json", true);
+                     config.AddEnvironmentVariables();
+                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
