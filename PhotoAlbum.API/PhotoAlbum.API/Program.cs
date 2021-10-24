@@ -20,6 +20,7 @@ namespace PhotoAlbum.API
                      config.SetBasePath(Directory.GetParent(AppContext.BaseDirectory).FullName);
                      config.AddJsonFile("appsettings.json", false);
                      config.AddJsonFile("appsettings.Development.json", true);
+                     config.AddEnvironmentVariables();
                  })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
