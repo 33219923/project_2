@@ -2,6 +2,6 @@
 {
     public class AppSettings
     {
-        public const string DB_CONNECTION = "DB_CONNECTION";
+        public const string DB_CONNECTION = "VALUES:DB_CONNECTION";
     }
 }
