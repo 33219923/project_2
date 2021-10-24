@@ -6,9 +6,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
 using PhotoAlbum.Data;
 using PhotoAlbum.Repository.Utils;
 using PhotoAlbum.Shared.Constants;
+using System.Linq;
 
 namespace PhotoAlbum.API
 {
@@ -51,7 +53,7 @@ namespace PhotoAlbum.API
         {
 
             var logger = loggerFactory.CreateLogger<Startup>();
-            //logger?.LogInformation("Configuration: {configuration}", JsonConvert.SerializeObject(Configuration.AsEnumerable().ToList(), Formatting.Indented));
+            logger?.LogInformation("Configuration: {configuration}", JsonConvert.SerializeObject(Configuration.AsEnumerable().ToList(), Formatting.Indented));
             logger?.LogInformation("ConnectionString: {c}", Configuration[AppSettings.DB_CONNECTION]);
 
             if (env.IsDevelopment())
