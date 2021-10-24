@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy ASP.Net Core app to Azure Web App - PhotoAlbumClientPortal
+name: PhotoAlbumClientPortal - Build and deploy ASP.Net Core app to Azure Web App
 
 on:
   push:
@@ -12,6 +12,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      working-directory: ./PhotoAlbum.API/PhotoAlbum.ClientPortal
 
     steps:
       - uses: actions/checkout@v2
@@ -23,9 +25,11 @@ jobs:
           include-prerelease: true
 
       - name: Build with dotnet
+        working-directory: ${{env.working-directory}}
         run: dotnet build --configuration Release
 
       - name: dotnet publish
+        working-directory: ${{env.working-directory}}
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
       - name: Upload artifact for deployment job
