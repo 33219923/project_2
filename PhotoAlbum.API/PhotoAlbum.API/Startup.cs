@@ -48,12 +48,13 @@ namespace PhotoAlbum.API
         {
             //Temporarily expose swagger endpoint in deployment
             app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "PhotoAlbum.API v1"));
 
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 //app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "PhotoAlbum.API v1"));
+                //app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "PhotoAlbum.API v1"));
             }
 
             //Running automatic migration
