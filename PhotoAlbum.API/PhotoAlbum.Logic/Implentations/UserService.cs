@@ -1,9 +1,16 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using PhotoAlbum.Data.Models;
 using PhotoAlbum.Logic.Interfaces;
 using PhotoAlbum.Repository.Interfaces;
+using PhotoAlbum.Shared.Constants;
 using PhotoAlbum.Shared.Models;
 using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace PhotoAlbum.Logic.Implentations
 {
@@ -11,11 +18,13 @@ namespace PhotoAlbum.Logic.Implentations
     {
         private readonly ILogger _logger;
         private readonly IUserRepository _userRepository;
+        private readonly IConfiguration _configuration;
 
-        public UserService(ILogger<UserService> logger, IUserRepository userRepository) : base(logger, userRepository)
+        public UserService(ILogger<UserService> logger, IUserRepository userRepository, IConfiguration configuration) : base(logger, userRepository)
         {
             _logger = logger;
             _userRepository = userRepository;
+            _configuration = configuration;
         }
 
         public override User Add(User user)
@@ -40,6 +49,30 @@ namespace PhotoAlbum.Logic.Implentations
         {
             _logger.LogDebug("Change password for user called! UserId: {userId}, CurrentPassword: {currentPassword}, NewPassword: {newPassword}", userId, currentPassword, newPassword);
             _userRepository.ChangePassword(userId, currentPassword, newPassword);
+        }
+
+        public string GetToken(Login login)
+        {
+            _logger.LogDebug("Get token for user called! Login: {login}", login);
+
+            var user = _userRepository.ValidateUser(login);
+
+            List<Claim> claimsList = new List<Claim>();
+            claimsList.Add(new Claim("userId", user.Id.ToString()));
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(_configuration[AppSettings.JWT_SECRET]);
+
+            var jwtSecurityToken = new JwtSecurityToken(
+               issuer: _configuration[AppSettings.JWT_ISSUER],
+               audience: _configuration[AppSettings.JWT_ISSUER],
+               claims: claimsList,
+               expires: DateTime.UtcNow.AddHours(double.Parse(_configuration[AppSettings.JWT_EXPIRY_HOURS])),
+               signingCredentials: new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature));
+
+            var jwtToken = tokenHandler.WriteToken(jwtSecurityToken);
+
+            return jwtToken;
         }
     }
 }

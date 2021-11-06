@@ -32,7 +32,7 @@ namespace PhotoAlbum.Repository.Implementations
             {
                 var user = _autoMapper.Map<UserModel>(dto);
                 user.PasswordHash = _userManager.PasswordHasher.HashPassword(user, dto.Password);
-                
+
                 var result = _userManager.CreateAsync(user).Result;
 
                 if (!result.Succeeded) throw new Exception(string.Join(" ", result.Errors.Select(x => x.Description)));
@@ -108,6 +108,19 @@ namespace PhotoAlbum.Repository.Implementations
                 _logger.LogError("Unable to change the password of the user. Error: {ex}", ex);
                 throw;
             }
+        }
+
+        public UserDto ValidateUser(Shared.Models.Login login)
+        {
+            var user = _userManager.FindByNameAsync(login.Username.ToUpperInvariant()).Result;
+
+            if (user == null) throw new Exception("User not found");
+
+            var validationResult = _userManager.CheckPasswordAsync(user, login.Password).Result;
+
+            if (!validationResult) throw new Exception("Incorrect password provided");
+
+            return _autoMapper.Map<UserDto>(user);
         }
     }
 }

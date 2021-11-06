@@ -18,5 +18,14 @@ namespace PhotoAlbum.API.Controllers
             _logger = logger;
             _userService = userService;
         }
+
+        [HttpPost]
+        [Route("token")]
+        public ActionResult<string> Token([FromBody] Login login)
+        {
+            _logger.LogDebug("User controller token called. Login: {login}", login);
+            var result = _userService.GetToken(login);
+            return Ok(result);
+        }
     }
 }

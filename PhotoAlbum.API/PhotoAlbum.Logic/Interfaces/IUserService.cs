@@ -6,6 +6,7 @@ namespace PhotoAlbum.Logic.Interfaces
 {
     public interface IUserService : IBaseService<User>
     {
-        public void ChangePassword(Guid userId, string currentPassword, string newPassword);
+        void ChangePassword(Guid userId, string currentPassword, string newPassword);
+        string GetToken(Login login);
     }
 }
