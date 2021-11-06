@@ -31,6 +31,7 @@ namespace PhotoAlbum.API
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            //Testing something
         }
 
         public IConfiguration Configuration { get; }
