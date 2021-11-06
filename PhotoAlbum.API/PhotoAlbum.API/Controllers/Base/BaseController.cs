@@ -1,11 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PhotoAlbum.Logic.Interfaces.Base;
 using System;
+using System.Collections.Generic;
 
 namespace PhotoAlbum.API.Controllers.Base
 {
-    public abstract class BaseController<TService> : ControllerBase where TService : class, IBaseService
+    public abstract class BaseController<TService, TDto> : ControllerBase where TService : class, IBaseService<TDto> where TDto : class
     {
         private readonly ILogger _logger;
         private readonly TService _service;
@@ -18,35 +20,51 @@ namespace PhotoAlbum.API.Controllers.Base
 
         [HttpGet]
         [Route("{id}")]
-        public ActionResult<string> Get([FromRoute] Guid id)
+        [Authorize]
+        public ActionResult<TDto> Get([FromRoute] Guid id)
         {
-            return Ok("AlbumController is working");
+            _logger.LogDebug("Base controller get called. Id:{id}", id);
+            var result = _service.Get(id);
+            return Ok(result);
         }
 
         [HttpGet]
         [Route("list")]
-        public ActionResult<string> List()
+        [Authorize]
+        public ActionResult<List<TDto>> List()
         {
-            return Ok("AlbumController is working");
+            _logger.LogDebug("Base controller list called.");
+            var result = _service.ListAll();
+            return Ok(result);
         }
 
         [HttpPost]
-        public ActionResult<string> Add()
+        [Authorize]
+        public ActionResult<TDto> Add([FromBody] TDto dto)
         {
-            throw new NotImplementedException();
+            _logger.LogDebug("Base controller add called. Dto: {@dto}", dto);
+            var result = _service.Add(dto);
+            return Ok(result);
         }
 
         [HttpPut]
-        public ActionResult<string> Update()
+        [Route("{id}")]
+        [Authorize]
+        public ActionResult<TDto> Update([FromRoute] Guid id, [FromBody] TDto dto)
         {
-            throw new NotImplementedException();
+            _logger.LogDebug("Base controller update called. Id:{id}, Dto: {@dto}", id, dto);
+            var result = _service.Update(dto, id);
+            return Ok(result);
         }
 
         [HttpDelete]
         [Route("{id}")]
-        public ActionResult<string> Delete([FromRoute] Guid id)
+        [Authorize]
+        public ActionResult Delete([FromRoute] Guid id)
         {
-            throw new NotImplementedException();
+            _logger.LogDebug("Base controller delete called. Id:{id}", id);
+            _service.Delete(id);
+            return Ok();
         }
     }
 }

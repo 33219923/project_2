@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using PhotoAlbum.Data.Interfaces;
 using PhotoAlbum.Data.Models;
+using PhotoAlbum.Shared.Services;
 using System;
 using System.Linq;
 
@@ -9,6 +10,8 @@ namespace PhotoAlbum.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, Guid>
     {
+        public readonly IRequestState _requestState;
+
         public virtual DbSet<Album> Albums { get; set; }
         public virtual DbSet<Photo> Photos { get; set; }
         public virtual DbSet<PhotoMetadata> PhotoMetadatas { get; set; }
@@ -16,8 +19,9 @@ namespace PhotoAlbum.Data
         public virtual DbSet<SharedAlbum> SharedAlbums { get; set; }
         public virtual DbSet<SharedPhoto> SharedPhotos { get; set; }
 
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IRequestState requestState = null) : base(options)
         {
+            _requestState = requestState;
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -53,7 +57,11 @@ namespace PhotoAlbum.Data
             {
                 if (entityEntry.State == EntityState.Added)
                 {
-                    ((ICreatedTracking)entityEntry.Entity).CreatedDate = DateTimeOffset.UtcNow;
+                    if (entityEntry.Entity.GetType().IsAssignableFrom(typeof(ICreatedTracking)))
+                        ((ICreatedTracking)entityEntry.Entity).CreatedDate = DateTimeOffset.UtcNow;
+
+                    if (entityEntry.Entity.GetType().IsAssignableFrom(typeof(ICreatedUserTracking)))
+                        ((ICreatedTracking)entityEntry.Entity).CreatedDate = DateTimeOffset.UtcNow;
                 }
             }
 

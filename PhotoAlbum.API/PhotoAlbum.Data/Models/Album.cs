@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PhotoAlbum.Data.Models
 {
-    public class Album : IBaseEntity, ICreatedTracking
+    public class Album : IBaseEntity, ICreatedTracking, ICreatedUserTracking
     {
         [Key]
         public Guid Id { get; set; }

@@ -29,7 +29,7 @@ namespace PhotoAlbum.Repository.Utils
                 cfg.CreateMap<Shared.Models.SharedPhoto, Data.Models.SharedPhoto>();
                 cfg.CreateMap<Data.Models.SharedPhoto, Shared.Models.SharedPhoto>();
 
-                cfg.CreateMap<Shared.Models.User, Data.Models.ApplicationUser>();
+                cfg.CreateMap<Shared.Models.User, Data.Models.ApplicationUser>().ForMember(src => src.Id, mOpt => mOpt.Ignore());
                 cfg.CreateMap<Data.Models.ApplicationUser, Shared.Models.User>();
             },
             //Provide context where models exist

@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PhotoAlbum.Data.Models
 {
-    public class PhotoMetadata : ICreatedTracking, ISearchable
+    public class PhotoMetadata : ICreatedTracking, ISearchable, ICreatedUserTracking
     {
         [Key]
         [ForeignKey(nameof(Photo))]

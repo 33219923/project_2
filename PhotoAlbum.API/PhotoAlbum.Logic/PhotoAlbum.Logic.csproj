@@ -5,11 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PhotoAlbum.Repository\PhotoAlbum.Repository.csproj" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.14.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Implentations\Base\" />
+    <ProjectReference Include="..\PhotoAlbum.Repository\PhotoAlbum.Repository.csproj" />
   </ItemGroup>
 
 </Project>

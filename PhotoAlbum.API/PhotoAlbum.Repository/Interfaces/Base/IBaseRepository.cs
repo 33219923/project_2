@@ -7,9 +7,9 @@ namespace PhotoAlbum.Repository.Interfaces.Base
     {
         List<TDto> ListAll(Func<TEntity, bool> filter = null);
         TDto Get(Func<TEntity, bool> filter);
-        void Add(TDto entity);
-        void Update(TDto entity, Guid id);
-        void Update(TDto dto, Func<TEntity, bool> primaryKey);
+        TDto Add(TDto entity);
+        TDto Update(TDto entity, Guid id);
+        TDto Update(TDto dto, Func<TEntity, bool> primaryKey);
         void Delete(Guid id);
         void Delete(Func<TEntity, bool> primaryKey);
     }

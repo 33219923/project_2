@@ -8,6 +8,11 @@ namespace PhotoAlbum.Data.Models
 {
     public class ApplicationUser : IdentityUser<Guid>, IBaseEntity, ICreatedTracking, ISearchable
     {
+        public ApplicationUser() : base()
+        {
+            this.Id = Guid.NewGuid();
+        }
+
         public string Name { get; set; }
         public string Surname { get; set; }
         public DateTimeOffset CreatedDate { get; set; }

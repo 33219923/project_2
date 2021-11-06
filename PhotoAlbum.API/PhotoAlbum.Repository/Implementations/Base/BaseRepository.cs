@@ -36,22 +36,22 @@ namespace PhotoAlbum.Repository.Implementations.Base
 
         public virtual List<TDto> ListAll(Func<TEntity, bool> filter = null)
         {
-            var entities = _db.Set<TEntity>().AsNoTracking().Where(filter).ToList();
+            IEnumerable<TEntity> query = _db.Set<TEntity>().AsNoTracking();
+            if (filter != null) query = query.Where(filter);
 
-            if (null != entities)
-                return _autoMapper.Map<List<TDto>>(entities);
-
-            return null;
+            return _autoMapper.Map<List<TDto>>(query.ToList());
         }
 
-        public virtual void Add(TDto dto)
+        public virtual TDto Add(TDto dto)
         {
             var entity = _autoMapper.Map<TEntity>(dto);
 
             _db.Set<TEntity>().Add(entity);
+
+            return _autoMapper.Map<TDto>(entity);
         }
 
-        public virtual void Update(TDto dto, Guid id)
+        public virtual TDto Update(TDto dto, Guid id)
         {
             var entity = _db.Set<TEntity>().FirstOrDefault(p => ((IBaseEntity)p).Id == id);
 
@@ -60,9 +60,11 @@ namespace PhotoAlbum.Repository.Implementations.Base
             entity = _autoMapper.Map(dto, entity);
 
             _db.Set<TEntity>().Update(entity);
+
+            return _autoMapper.Map<TDto>(entity);
         }
 
-        public virtual void Update(TDto dto, Func<TEntity, bool> primaryKey)
+        public virtual TDto Update(TDto dto, Func<TEntity, bool> primaryKey)
         {
             var entity = _db.Set<TEntity>().FirstOrDefault(primaryKey);
 
@@ -71,6 +73,8 @@ namespace PhotoAlbum.Repository.Implementations.Base
             entity = _autoMapper.Map(dto, entity);
 
             _db.Set<TEntity>().Update(entity);
+
+            return _autoMapper.Map<TDto>(entity);
         }
 
         public virtual void Delete(Guid id)
