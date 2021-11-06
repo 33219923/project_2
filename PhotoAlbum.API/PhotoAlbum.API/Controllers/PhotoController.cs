@@ -19,5 +19,23 @@ namespace PhotoAlbum.API.Controllers
             _photoService = photoService;
         }
 
+        [HttpPost]
+        [Route("share")]
+        public ActionResult<SharedPhoto> ShareAlbum([FromBody] SharedPhoto sharedPhoto)
+        {
+            _logger.LogDebug("Album controller share photo called. SharedAlbum: {sharedPhoto}", sharedPhoto);
+            var result = _photoService.SharePhoto(sharedPhoto);
+            return Ok(result);
+        }
+
+        [HttpDelete]
+        [Route("unshare")]
+        public ActionResult UnsharePhoto([FromBody] SharedPhoto sharedPhoto)
+        {
+            _logger.LogDebug("Album controller unshare photo called. SharedAlbum: {sharedPhoto}", sharedPhoto);
+            _photoService.UnsharePhoto(sharedPhoto);
+            return Ok();
+        }
+
     }
 }

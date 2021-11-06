@@ -20,6 +20,7 @@ namespace PhotoAlbum.Repository.Implementations
 
         public UserRepository(UserManager<UserModel> userManager, ApplicationDbContext db, ILogger<UserRepository> logger, IMapper autoMapper) : base(db, logger, autoMapper)
         {
+            _userManager = userManager;
             _db = db;
             _logger = logger;
             _autoMapper = autoMapper;
@@ -30,16 +31,13 @@ namespace PhotoAlbum.Repository.Implementations
             try
             {
                 var user = _autoMapper.Map<UserModel>(dto);
+                user.PasswordHash = _userManager.PasswordHasher.HashPassword(user, dto.Password);
                 
                 var result = _userManager.CreateAsync(user).Result;
 
                 if (!result.Succeeded) throw new Exception(string.Join(" ", result.Errors.Select(x => x.Description)));
 
-                result = _userManager.AddPasswordAsync(user, dto.Password).Result;
-
-                if (!result.Succeeded) throw new Exception(string.Join(" ", result.Errors.Select(x => x.Description)));
-
-                return dto;
+                return _autoMapper.Map<UserDto>(user);
             }
             catch (Exception ex)
             {
@@ -59,7 +57,7 @@ namespace PhotoAlbum.Repository.Implementations
 
                 if (!result.Succeeded) throw new Exception(string.Join(" ", result.Errors.Select(x => x.Description)));
 
-                return dto;
+                return _autoMapper.Map<UserDto>(user);
             }
             catch (Exception ex)
             {

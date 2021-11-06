@@ -10,5 +10,7 @@ namespace PhotoAlbum.Logic.Interfaces
 {
     public interface IPhotoService : IBaseService<Photo>
     {
+        SharedPhoto SharePhoto(SharedPhoto sharedPhoto);
+        void UnsharePhoto(SharedPhoto sharedPhoto);
     }
 }

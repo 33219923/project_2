@@ -1,14 +1,18 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using PhotoAlbum.Data;
+using PhotoAlbum.Data.Models;
 using PhotoAlbum.Logic.Utils;
 using PhotoAlbum.Repository.Utils;
 using PhotoAlbum.Shared.Constants;
+using PhotoAlbum.Shared.Middleware;
+using PhotoAlbum.Shared.Services;
 
 namespace PhotoAlbum.API
 {
@@ -30,6 +34,8 @@ namespace PhotoAlbum.API
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "PhotoAlbum.API", Version = "v1" });
             });
 
+            services.AddScoped<IRequestState, RequestState>();
+
             services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options.UseNpgsql(Configuration[AppSettings.DB_CONNECTION], x =>
@@ -38,13 +44,17 @@ namespace PhotoAlbum.API
                 });
             });
 
+            services.AddIdentity<ApplicationUser, ApplicationRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
+
             services.AddAutoMapConfig();
             services.AddLogicServices();
             services.AddRepositories();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ApplicationDbContext db)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             //Temporarily expose swagger endpoint in deployment
             app.UseSwagger();
@@ -58,7 +68,9 @@ namespace PhotoAlbum.API
             }
 
             //Running automatic migration
-            db.Database.Migrate();
+            using (var scope = app.ApplicationServices.CreateScope())
+            using (var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>())
+                db.Database.Migrate();
 
             app.UseHttpsRedirection();
 
@@ -66,7 +78,7 @@ namespace PhotoAlbum.API
 
             app.UseAuthorization();
 
-
+            app.UseMiddleware<RequestStateMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {

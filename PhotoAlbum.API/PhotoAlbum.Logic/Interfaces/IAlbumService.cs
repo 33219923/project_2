@@ -10,5 +10,7 @@ namespace PhotoAlbum.Logic.Interfaces
 {
     public interface IAlbumService : IBaseService<Album>
     {
+        SharedAlbum ShareAlbum(SharedAlbum sharedAlbum);
+        void UnshareAlbum(SharedAlbum sharedAlbum);
     }
 }

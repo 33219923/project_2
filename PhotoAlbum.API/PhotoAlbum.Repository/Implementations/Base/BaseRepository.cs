@@ -36,12 +36,10 @@ namespace PhotoAlbum.Repository.Implementations.Base
 
         public virtual List<TDto> ListAll(Func<TEntity, bool> filter = null)
         {
-            var entities = _db.Set<TEntity>().AsNoTracking().Where(filter).ToList();
+            IEnumerable<TEntity> query = _db.Set<TEntity>().AsNoTracking();
+            if (filter != null) query = query.Where(filter);
 
-            if (null != entities)
-                return _autoMapper.Map<List<TDto>>(entities);
-
-            return null;
+            return _autoMapper.Map<List<TDto>>(query.ToList());
         }
 
         public virtual TDto Add(TDto dto)
