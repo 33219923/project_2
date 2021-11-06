@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using PhotoAlbum.Data;
 using PhotoAlbum.Repository.Implementations.Base;
 using PhotoAlbum.Repository.Interfaces;
+using PhotoAlbum.Shared.Exceptions;
 using System;
 using System.Linq;
 using UserDto = PhotoAlbum.Shared.Models.User;
@@ -114,11 +115,11 @@ namespace PhotoAlbum.Repository.Implementations
         {
             var user = _userManager.FindByNameAsync(login.Username.ToUpperInvariant()).Result;
 
-            if (user == null) throw new Exception("User not found");
+            if (user == null) throw new EntityNotFoundException($"The user with username [{login.Username}] does not exist.");
 
             var validationResult = _userManager.CheckPasswordAsync(user, login.Password).Result;
 
-            if (!validationResult) throw new Exception("Incorrect password provided");
+            if (!validationResult) throw new Exception($"The password provided is incorrect for the user with username [{login.Username}].");
 
             return _autoMapper.Map<UserDto>(user);
         }

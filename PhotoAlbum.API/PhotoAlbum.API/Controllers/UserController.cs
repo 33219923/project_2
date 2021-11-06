@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using PhotoAlbum.API.Controllers.Base;
 using PhotoAlbum.Logic.Interfaces;
 using PhotoAlbum.Shared.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace PhotoAlbum.API.Controllers
 {
