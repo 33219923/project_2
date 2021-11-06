@@ -19,8 +19,7 @@ namespace PhotoAlbum.Shared.Middleware
         {
             var requestState = (IRequestState)context.RequestServices.GetService(typeof(IRequestState));
 
-            //Automatically extract user id for tracking in database entities
-            var userIdClaim = context.User?.Claims?.FirstOrDefault(x => x.Type == "userId");
+            var userIdClaim = context.User?.FindFirst("userId");
             if (userIdClaim != null && !string.IsNullOrEmpty(userIdClaim.Value))
                 requestState.UserId = Guid.Parse(userIdClaim.Value);
 

@@ -29,13 +29,13 @@ namespace PhotoAlbum.Logic.Implentations
 
         public override User Add(User user)
         {
-            _logger.LogDebug("Register user called! User:{user}", user);
+            _logger.LogDebug("Register user called! User:{@user}", user);
             return _userRepository.Add(user);
         }
 
         public override User Update(User user, Guid userId)
         {
-            _logger.LogDebug("Update user called! User: {user}, UserId: {userId}", user, userId);
+            _logger.LogDebug("Update user called! User: {@user}, UserId: {userId}", user, userId);
             return _userRepository.Update(user, userId);
         }
 
@@ -53,7 +53,7 @@ namespace PhotoAlbum.Logic.Implentations
 
         public string GetToken(Login login)
         {
-            _logger.LogDebug("Get token for user called! Login: {login}", login);
+            _logger.LogDebug("Get token for user called! Login: {@login}", login);
 
             var user = _userRepository.ValidateUser(login);
 

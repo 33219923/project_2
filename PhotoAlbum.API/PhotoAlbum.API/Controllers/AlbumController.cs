@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PhotoAlbum.API.Controllers.Base;
 using PhotoAlbum.Logic.Interfaces;
@@ -21,6 +22,7 @@ namespace PhotoAlbum.API.Controllers
 
         [HttpPost]
         [Route("share")]
+        [Authorize]
         public ActionResult<SharedAlbum> ShareAlbum([FromBody] SharedAlbum sharedAlbum)
         {
             _logger.LogDebug("Album controller share album called. SharedAlbum: {sharedAlbum}", sharedAlbum);
@@ -30,6 +32,7 @@ namespace PhotoAlbum.API.Controllers
 
         [HttpDelete]
         [Route("unshare")]
+        [Authorize]
         public ActionResult UnshareAlbum([FromBody] SharedAlbum sharedAlbum)
         {
             _logger.LogDebug("Album controller unshare album called. SharedAlbum: {sharedAlbum}", sharedAlbum);

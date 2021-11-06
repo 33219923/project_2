@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PhotoAlbum.Logic.Interfaces.Base;
 using System;
@@ -19,6 +20,7 @@ namespace PhotoAlbum.API.Controllers.Base
 
         [HttpGet]
         [Route("{id}")]
+        [Authorize]
         public ActionResult<TDto> Get([FromRoute] Guid id)
         {
             _logger.LogDebug("Base controller get called. Id:{id}", id);
@@ -28,6 +30,7 @@ namespace PhotoAlbum.API.Controllers.Base
 
         [HttpGet]
         [Route("list")]
+        [Authorize]
         public ActionResult<List<TDto>> List()
         {
             _logger.LogDebug("Base controller list called.");
@@ -36,27 +39,30 @@ namespace PhotoAlbum.API.Controllers.Base
         }
 
         [HttpPost]
+        [Authorize]
         public ActionResult<TDto> Add([FromBody] TDto dto)
         {
-            _logger.LogDebug("Base controller add called. Dto: {dto}", dto);
+            _logger.LogDebug("Base controller add called. Dto: {@dto}", dto);
             var result = _service.Add(dto);
             return Ok(result);
         }
 
         [HttpPut]
         [Route("{id}")]
+        [Authorize]
         public ActionResult<TDto> Update([FromRoute] Guid id, [FromBody] TDto dto)
         {
-            _logger.LogDebug("Base controller update called. Id:{}, Dto: {dto}", id, dto);
+            _logger.LogDebug("Base controller update called. Id:{id}, Dto: {@dto}", id, dto);
             var result = _service.Update(dto, id);
             return Ok(result);
         }
 
         [HttpDelete]
         [Route("{id}")]
+        [Authorize]
         public ActionResult Delete([FromRoute] Guid id)
         {
-            _logger.LogDebug("Base controller delete called. Id:{}", id);
+            _logger.LogDebug("Base controller delete called. Id:{id}", id);
             _service.Delete(id);
             return Ok();
         }
