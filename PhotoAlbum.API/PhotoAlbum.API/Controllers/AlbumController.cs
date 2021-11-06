@@ -2,12 +2,13 @@
 using Microsoft.Extensions.Logging;
 using PhotoAlbum.API.Controllers.Base;
 using PhotoAlbum.Logic.Interfaces;
+using PhotoAlbum.Shared.Models;
 
 namespace PhotoAlbum.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AlbumController : BaseController<IAlbumService>
+    public class AlbumController : BaseController<IAlbumService, Album>
     {
         private readonly ILogger _logger;
         private readonly IAlbumService _albumService;

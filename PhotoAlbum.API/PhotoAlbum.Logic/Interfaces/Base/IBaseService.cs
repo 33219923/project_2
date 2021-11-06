@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PhotoAlbum.Logic.Interfaces.Base
 {
-    public interface IBaseService<T>
+    public interface IBaseService<TDto> where TDto : class
     {
-        T Get(Guid id);
-        List<T> ListAll();
-        T Add(T dto);
-        T Update(T dto, Guid id);
+        TDto Get(Guid id);
+        List<TDto> ListAll();
+        TDto Add(TDto dto);
+        TDto Update(TDto dto, Guid id);
         void Delete(Guid id);
     }
 }

@@ -8,8 +8,4 @@
     <ProjectReference Include="..\PhotoAlbum.Repository\PhotoAlbum.Repository.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Implentations\Base\" />
-  </ItemGroup>
-
 </Project>

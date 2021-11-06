@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace PhotoAlbum.API.Controllers.Base
 {
-    public abstract class BaseController<TService, TDto> : ControllerBase where TService : class, IBaseService<TDto>
+    public abstract class BaseController<TService, TDto> : ControllerBase where TService : class, IBaseService<TDto> where TDto : class
     {
         private readonly ILogger _logger;
         private readonly TService _service;
