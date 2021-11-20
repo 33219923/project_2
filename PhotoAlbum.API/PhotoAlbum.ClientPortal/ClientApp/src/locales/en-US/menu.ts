@@ -49,4 +49,12 @@ export default {
   'menu.editor.flow': 'Flow Editor',
   'menu.editor.mind': 'Mind Editor',
   'menu.editor.koni': 'Koni Editor',
+  'menu.albums': 'Albums',
+  'menu.album': 'Album',
+  'menu.album.add-album': 'Add',
+  'menu.album.edit-album': 'Edit',
+  'menu.photos': 'Photos',
+  'menu.photo': 'Photo',
+  'menu.album.add-photo': 'Add',
+  'menu.album.edit-photo': 'Edit',
 };

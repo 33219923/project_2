@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { ProFormText, LoginForm } from '@ant-design/pro-form';
 import { useIntl, history, FormattedMessage, SelectLang, useModel } from 'umi';
 import Footer from '@/components/Footer';
-import { login } from '@/services/ant-design-pro/api';
+import { login } from '@/services/api';
 
 import styles from './index.less';
 
