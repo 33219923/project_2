@@ -1,5 +1,5 @@
-import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { message } from 'antd';
+import { LockOutlined, ThunderboltOutlined, UserOutlined } from '@ant-design/icons';
+import { Button, message } from 'antd';
 import React from 'react';
 import { ProFormText, LoginForm } from '@ant-design/pro-form';
 import { useIntl, history, FormattedMessage, SelectLang, useModel, Link } from 'umi';
@@ -55,6 +55,13 @@ const Login: React.FC = () => {
       </div>
       <div className={styles.content}>
         <LoginForm
+          submitter={{
+            render: (props, dom) => {
+              return <>
+                <Button type='primary' htmlType="submit" icon={<ThunderboltOutlined />} style={{ width: '100%', marginTop: 10 }}>{intl.formatMessage({ id: 'pages.login.submitText' })}</Button>
+              </>
+            }
+          }}
           logo={<img alt="logo" src="/logo.svg" />}
           title={intl.formatMessage({ id: 'app.title' })}
           subTitle={intl.formatMessage({ id: 'pages.layouts.userLayout.title' })}

@@ -2,6 +2,17 @@
 /* eslint-disable */
 import request from '@/utils/request';
 
+export async function register(body: any, options?: { [key: string]: any }) {
+  return request<any>(`${API_URL}/api/user`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
 export async function currentUser(options?: { [key: string]: any }) {
   return request<API.CurrentUser>(`${API_URL}/api/user/currentUser`, {
     method: 'GET',
