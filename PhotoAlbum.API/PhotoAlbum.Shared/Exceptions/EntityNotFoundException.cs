@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Serialization;
 
 namespace PhotoAlbum.Shared.Exceptions
 {
@@ -9,6 +10,10 @@ namespace PhotoAlbum.Shared.Exceptions
         }
 
         public EntityNotFoundException(string message) : base(message)
+        {
+        }
+
+        protected EntityNotFoundException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
     }

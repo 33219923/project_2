@@ -36,7 +36,7 @@ namespace PhotoAlbum.Repository.Implementations
 
                 var result = _userManager.CreateAsync(user).Result;
 
-                if (!result.Succeeded) throw new Exception(string.Join(" ", result.Errors.Select(x => x.Description)));
+                if (!result.Succeeded) throw new InvalidRequestException(string.Join(" ", result.Errors.Select(x => x.Description)));
 
                 return _autoMapper.Map<UserDto>(user);
             }
@@ -56,7 +56,7 @@ namespace PhotoAlbum.Repository.Implementations
 
                 var result = _userManager.UpdateAsync(user).Result;
 
-                if (!result.Succeeded) throw new Exception(string.Join(" ", result.Errors.Select(x => x.Description)));
+                if (!result.Succeeded) throw new InvalidRequestException(string.Join(" ", result.Errors.Select(x => x.Description)));
 
                 return _autoMapper.Map<UserDto>(user);
             }
@@ -80,7 +80,7 @@ namespace PhotoAlbum.Repository.Implementations
 
                 var result = _userManager.DeleteAsync(user).Result;
 
-                if (!result.Succeeded) throw new Exception(string.Join(" ", result.Errors.Select(x => x.Description)));
+                if (!result.Succeeded) throw new InvalidRequestException(string.Join(" ", result.Errors.Select(x => x.Description)));
             }
             catch (Exception ex)
             {
@@ -102,7 +102,7 @@ namespace PhotoAlbum.Repository.Implementations
 
                 var result = _userManager.ChangePasswordAsync(user, currentPassword, newPassword).Result;
 
-                if (!result.Succeeded) throw new Exception(string.Join(" ", result.Errors.Select(x => x.Description)));
+                if (!result.Succeeded) throw new InvalidRequestException(string.Join(" ", result.Errors.Select(x => x.Description)));
             }
             catch (Exception ex)
             {
@@ -119,7 +119,7 @@ namespace PhotoAlbum.Repository.Implementations
 
             var validationResult = _userManager.CheckPasswordAsync(user, login.Password).Result;
 
-            if (!validationResult) throw new Exception($"The password provided is incorrect for the user with username [{login.Username}].");
+            if (!validationResult) throw new InvalidRequestException($"The password provided is incorrect for the user with username [{login.Username}].");
 
             return _autoMapper.Map<UserDto>(user);
         }

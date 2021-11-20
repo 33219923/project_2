@@ -12,7 +12,7 @@
             component: './Login',
           },
           {
-            name: 'registrer',
+            name: 'register',
             path: '/user/register',
             component: './Register',
           },
@@ -24,51 +24,75 @@
     ],
   },
   {
+    hideInMenu: false,
     path: '/albums',
     name: 'albums',
     icon: 'folder',
-    access: 'loggedIn',
+    authority: 'User',
     component: './Album/List',
+    routes: [
+      {
+        component: './404',
+      },
+    ],
   },
   {
-    path: '/album/add',
+    path: '/album',
     hideInMenu: true,
-    name: 'add-album',
     access: 'loggedIn',
-    component: './Album',
+    authority: 'User',
+    routes: [
+      {
+        path: '/album/add',
+        name: 'add-album',
+        component: './Album',
+      },
+      {
+        path: '/album/:id/edit',
+        name: 'edit-album',
+        component: './Album',
+      },
+      {
+        component: './404',
+      },
+    ],
   },
   {
-    path: '/album/:id',
-    hideInMenu: true,
-    name: 'edit-album',
-    access: 'loggedIn',
-    component: './Album',
-  },
-  {
-    path: '/photo/list',
+    path: '/photos',
     name: 'photos',
     icon: 'picture',
     access: 'loggedIn',
+    authority: 'User',
     component: './Photo/List',
   },
   {
-    path: '/photo/add',
+    path: '/photo',
     hideInMenu: true,
-    name: 'add-photo',
     access: 'loggedIn',
-    component: './Photo',
-  },
-  {
-    path: '/photo/:id',
-    hideInMenu: true,
-    name: 'edit-photo',
-    access: 'loggedIn',
-    component: './Photo',
+    authority: 'User',
+    routes: [
+      {
+        path: '/photo/add',
+        name: 'add-photo',
+        component: './Photo',
+      },
+      {
+        path: '/photo/:id/edit',
+        name: 'edit-photo',
+        component: './Photo',
+      },
+      {
+        component: './404',
+      },
+    ],
   },
   {
     path: '/',
     redirect: '/albums',
-    access: 'loggedIn',
+  },
+  {
+    path: '**',
+    redirect: '/',
   },
   {
     component: './404',
