@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PhotoAlbum.API.Controllers.Base;
 using PhotoAlbum.Logic.Interfaces;
@@ -27,6 +28,13 @@ namespace PhotoAlbum.API.Controllers
             _logger.LogDebug("User controller token called. Login: {@login}", login);
             var result = _userService.GetToken(login);
             return Ok(result);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public override ActionResult<User> Add([FromBody] User newUser)
+        {
+            return base.Add(newUser);
         }
     }
 }
