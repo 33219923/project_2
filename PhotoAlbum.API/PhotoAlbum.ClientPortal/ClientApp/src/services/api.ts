@@ -1,11 +1,9 @@
 // @ts-ignore
 /* eslint-disable */
-import { request } from 'umi';
+import request from '@/utils/request';
 
 export async function currentUser(options?: { [key: string]: any }) {
-  return request<{
-    data: API.CurrentUser;
-  }>(`${API_URL}/api/user/currentUser`, {
+  return request<API.CurrentUser>(`${API_URL}/api/user/currentUser`, {
     method: 'GET',
     ...(options || {}),
   });

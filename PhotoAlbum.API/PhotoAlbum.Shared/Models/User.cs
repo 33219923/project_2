@@ -23,5 +23,8 @@ namespace PhotoAlbum.Shared.Models
 
         [JsonProperty("surname")]
         public string Surname { get; set; }
+
+        [JsonProperty("access")]
+        public string Access { get; set; } = "User";
     }
 }

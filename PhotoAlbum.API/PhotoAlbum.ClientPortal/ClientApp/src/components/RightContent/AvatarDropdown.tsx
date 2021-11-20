@@ -6,6 +6,8 @@ import { stringify } from 'querystring';
 import HeaderDropdown from '../HeaderDropdown';
 import styles from './index.less';
 import type { MenuInfo } from 'rc-menu/lib/interface';
+import { clearToken } from '@/utils/authority';
+import { startCase } from 'lodash';
 
 export type GlobalHeaderRightProps = {
   menu?: boolean;
@@ -32,6 +34,7 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
     (event: MenuInfo) => {
       const { key } = event;
       if (key === 'logout') {
+        clearToken();
         setInitialState((s) => ({ ...s, currentUser: undefined }));
         loginOut();
         return;
@@ -74,8 +77,8 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
   return (
     <HeaderDropdown overlay={menuHeaderDropdown}>
       <span className={`${styles.action} ${styles.account}`}>
-        <Avatar size="small" className={styles.avatar} src={currentUser.avatar} alt="avatar" />
-        <span className={`${styles.name} anticon`}>{currentUser.name}</span>
+        <Avatar size="small" className={styles.avatar} icon={<UserOutlined />} />
+        <span className={`${styles.name} anticon`}>{startCase(currentUser.name)} {startCase(currentUser.surname)}</span>
       </span>
     </HeaderDropdown>
   );

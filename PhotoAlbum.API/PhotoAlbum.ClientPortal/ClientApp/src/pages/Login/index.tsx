@@ -1,28 +1,14 @@
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { Alert, Button, message } from 'antd';
-import React, { useState } from 'react';
+import { message } from 'antd';
+import React from 'react';
 import { ProFormText, LoginForm } from '@ant-design/pro-form';
-import { useIntl, history, FormattedMessage, SelectLang, useModel } from 'umi';
+import { useIntl, history, FormattedMessage, SelectLang, useModel, Link } from 'umi';
 import Footer from '@/components/Footer';
 import { login } from '@/services/api';
-
 import styles from './index.less';
-
-const LoginMessage: React.FC<{
-  content: string;
-}> = ({ content }) => (
-  <Alert
-    style={{
-      marginBottom: 24,
-    }}
-    message={content}
-    type="error"
-    showIcon
-  />
-);
+import { setToken } from '@/utils/authority';
 
 const Login: React.FC = () => {
-  const [userLoginState, setUserLoginState] = useState<API.LoginResult>({});
   const { initialState, setInitialState } = useModel('@@initialState');
 
   const intl = useIntl();
@@ -40,30 +26,27 @@ const Login: React.FC = () => {
   const handleSubmit = async (values: API.LoginParams) => {
     try {
       const msg = await login({ ...values });
-      // if (msg.status === 'ok') {
-      //   const defaultLoginSuccessMessage = intl.formatMessage({
-      //     id: 'pages.login.success',
-      //   });
-      //   message.success(defaultLoginSuccessMessage);
-      //   await fetchUserInfo();
+      if (msg) {
+        setToken(msg);
+        const defaultLoginSuccessMessage = intl.formatMessage({
+          id: 'pages.login.success',
+        });
+        message.success(defaultLoginSuccessMessage);
+        await fetchUserInfo();
 
-      //   if (!history) return;
-      //   const { query } = history.location;
-      //   const { redirect } = query as { redirect: string };
-      //   history.push(redirect || '/');
-      //   return;
-      // }
-      console.log(msg);
-
-      // setUserLoginState(msg);
-    } catch (error) {
-      const defaultLoginFailureMessage = intl.formatMessage({
+        if (!history) return;
+        const { query } = history.location;
+        const { redirect } = query as { redirect: string };
+        history.push(redirect || '/');
+        return;
+      }
+    } catch (error: any) {
+      const defaultLoginFailureMessage = error?.message || intl.formatMessage({
         id: 'pages.login.failure',
       });
       message.error(defaultLoginFailureMessage);
     }
   };
-  const { status } = userLoginState;
 
   return (
     <div className={styles.container}>
@@ -82,22 +65,15 @@ const Login: React.FC = () => {
                 textAlign: 'center',
               }}
             >
-              <a>
+              <Link to="/user/register">
                 <FormattedMessage id="pages.login.registerAccount" />
-              </a>
+              </Link>
             </div>,
           ]}
           onFinish={async (values) => {
             await handleSubmit(values as API.LoginParams);
           }}
         >
-          {status === 'error' && (
-            <LoginMessage
-              content={intl.formatMessage({
-                id: 'pages.login.accountLogin.errorMessage',
-              })}
-            />
-          )}
           <ProFormText
             name="username"
             fieldProps={{

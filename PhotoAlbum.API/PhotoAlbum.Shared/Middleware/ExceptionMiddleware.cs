@@ -41,11 +41,13 @@ namespace PhotoAlbum.Shared.Middleware
                 Message = ex switch
                 {
                     EntityNotFoundException => ex.Message,
+                    InvalidRequestException => ex.Message,
                     _ => "An error occurred. Please refer to the logs."
                 },
                 StatusCode = ex switch
                 {
                     EntityNotFoundException => (int)HttpStatusCode.NotFound,
+                    InvalidRequestException => (int)HttpStatusCode.BadRequest,
                     _ => (int)HttpStatusCode.InternalServerError
                 }
 #if DEBUG

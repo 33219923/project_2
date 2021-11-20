@@ -119,7 +119,7 @@ namespace PhotoAlbum.Repository.Implementations
 
             var validationResult = _userManager.CheckPasswordAsync(user, login.Password).Result;
 
-            if (!validationResult) throw new Exception($"The password provided is incorrect for the user with username [{login.Username}].");
+            if (!validationResult) throw new InvalidRequestException($"The password provided is incorrect for the user with username [{login.Username}].");
 
             return _autoMapper.Map<UserDto>(user);
         }
