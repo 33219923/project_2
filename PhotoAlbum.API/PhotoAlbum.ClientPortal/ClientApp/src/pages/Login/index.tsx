@@ -14,7 +14,13 @@ const Login: React.FC = () => {
   const intl = useIntl();
 
   const fetchUserInfo = async () => {
+
+    if (!initialState?.fetchUserInfo) {
+      console.log("Function does not exist! initialState?.fetchUserInfo");
+    }
+
     const userInfo = await initialState?.fetchUserInfo?.();
+
     if (userInfo) {
       await setInitialState((s) => ({
         ...s,

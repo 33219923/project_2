@@ -38,7 +38,6 @@ export default (): React.ReactNode => {
 
     return (
         <PageContainer
-            waterMarkProps={{ content: '' }}
             title={'Albums'}
             extra={renderActions()}
         >
