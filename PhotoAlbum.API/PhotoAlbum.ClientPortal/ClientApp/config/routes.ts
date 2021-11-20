@@ -28,7 +28,7 @@
     path: '/albums',
     name: 'albums',
     icon: 'folder',
-    authority: 'User',
+    authority: ['User'],
     component: './Album/List',
     routes: [
       {
@@ -40,7 +40,7 @@
     path: '/album',
     hideInMenu: true,
     access: 'loggedIn',
-    authority: 'User',
+    authority: ['User'],
     routes: [
       {
         path: '/album/add',
@@ -48,7 +48,7 @@
         component: './Album',
       },
       {
-        path: '/album/:id/edit',
+        path: '/album/edit',
         name: 'edit-album',
         component: './Album',
       },
@@ -62,14 +62,14 @@
     name: 'photos',
     icon: 'picture',
     access: 'loggedIn',
-    authority: 'User',
+    authority: ['User'],
     component: './Photo/List',
   },
   {
     path: '/photo',
     hideInMenu: true,
     access: 'loggedIn',
-    authority: 'User',
+    authority: ['User'],
     routes: [
       {
         path: '/photo/add',
@@ -77,7 +77,7 @@
         component: './Photo',
       },
       {
-        path: '/photo/:id/edit',
+        path: '/photo/edit',
         name: 'edit-photo',
         component: './Photo',
       },
