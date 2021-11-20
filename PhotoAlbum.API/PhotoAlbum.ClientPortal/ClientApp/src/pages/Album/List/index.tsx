@@ -13,7 +13,7 @@ export default (): React.ReactNode => {
     }
 
     const handleEditClicked = (id: string) => {
-        history.push(`/photo/${id}/add`);
+        history.push(`/album/edit?id=${id}`);
     }
 
     const renderAlbum = (album: any): JSX.Element => {

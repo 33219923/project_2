@@ -13,7 +13,7 @@ export default (): React.ReactNode => {
     }
 
     const handleEditClicked = (id: string) => {
-        history.push(`/photo/${id}/add`);
+        history.push(`/photo/edit?id=${id}`);
     }
 
     const renderPhoto = (photo: any): JSX.Element => {
