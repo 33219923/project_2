@@ -41,7 +41,7 @@ namespace PhotoAlbum.API
         {
             services.AddControllers()
                 .AddNewtonsoftJson()
-                .ConfigureApiBehaviorOptions(options=>
+                .ConfigureApiBehaviorOptions(options =>
                 {
                     options.InvalidModelStateResponseFactory = actionContext => ValidationExceptionHandler.Handle(actionContext);
                 });
@@ -70,6 +70,16 @@ namespace PhotoAlbum.API
                         },
                         Array.Empty<string>()
                     }
+                });
+            });
+
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(builder =>
+                {
+                    builder.WithOrigins(Configuration[AppSettings.ALLOWED_ORIGINS].Split(";"))
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
                 });
             });
 
@@ -137,6 +147,7 @@ namespace PhotoAlbum.API
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseRouting();
+            app.UseCors();
             app.UseAuthorization();
 
             app.UseMiddleware<RequestStateMiddleware>();
