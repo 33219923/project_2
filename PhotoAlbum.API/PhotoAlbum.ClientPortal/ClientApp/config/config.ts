@@ -3,12 +3,14 @@ import { defineConfig } from 'umi';
 import { join } from 'path';
 
 import defaultSettings from './defaultSettings';
-import proxy from './proxy';
 import routes from './routes';
 
 const { REACT_APP_ENV } = process.env;
 
 export default defineConfig({
+  // define: {
+  //   API_URL: 'https://photoalbumapi.azurewebsites.net',
+  // },
   hash: true,
   antd: {},
   dva: {
@@ -45,7 +47,7 @@ export default defineConfig({
   esbuild: {},
   title: false,
   ignoreMomentLocale: true,
-  proxy: proxy[REACT_APP_ENV || 'dev'],
+  //proxy: proxy[REACT_APP_ENV || 'dev'],
   manifest: {
     basePath: '/',
   },
@@ -54,9 +56,9 @@ export default defineConfig({
   openAPI: [
     {
       requestLibPath: "import { request } from 'umi'",
-      schemaPath: "https://photoalbumapi.azurewebsites.net/swagger/v1/swagger.json",
+      schemaPath: 'https://photoalbumapi.azurewebsites.net/swagger/v1/swagger.json',
       projectName: 'swagger',
-    }
+    },
   ],
   nodeModulesTransform: { type: 'none' },
   mfsu: {},

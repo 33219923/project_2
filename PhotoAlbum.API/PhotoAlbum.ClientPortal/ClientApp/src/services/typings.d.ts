@@ -1,6 +1,8 @@
 // @ts-ignore
 /* eslint-disable */
 
+declare const API_URL: string;
+
 declare namespace API {
   type CurrentUser = {
     name?: string;
@@ -64,8 +66,6 @@ declare namespace API {
   type LoginParams = {
     username?: string;
     password?: string;
-    autoLogin?: boolean;
-    type?: string;
   };
 
   type ErrorResponse = {
