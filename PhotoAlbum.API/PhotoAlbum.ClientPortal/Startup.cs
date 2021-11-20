@@ -1,11 +1,14 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Net.Http.Headers;
+using System;
 
 namespace PhotoAlbum.ClientPortal
 {
@@ -46,7 +49,18 @@ namespace PhotoAlbum.ClientPortal
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseSpaStaticFiles();
+            app.UseSpaStaticFiles(new StaticFileOptions()
+            {
+                OnPrepareResponse = ctx =>
+                {
+                    var headers = ctx.Context.Response.GetTypedHeaders();
+                    headers.CacheControl = new CacheControlHeaderValue
+                    {
+                        Public = true,
+                        MaxAge = TimeSpan.FromDays(0)
+                    };
+                }
+            });
 
             app.UseRouting();
 
@@ -60,6 +74,19 @@ namespace PhotoAlbum.ClientPortal
             app.UseSpa(spa =>
             {
                 spa.Options.SourcePath = "ClientApp";
+
+                spa.Options.DefaultPageStaticFileOptions = new StaticFileOptions()
+                {
+                    OnPrepareResponse = ctx =>
+                    {
+                        var headers = ctx.Context.Response.GetTypedHeaders();
+                        headers.CacheControl = new CacheControlHeaderValue
+                        {
+                            Public = true,
+                            MaxAge = TimeSpan.FromDays(0)
+                        };
+                    }
+                };
 
                 if (env.IsDevelopment())
                 {
