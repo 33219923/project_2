@@ -21,7 +21,7 @@ namespace PhotoAlbum.API.Controllers.Base
         [HttpGet]
         [Route("{id}")]
         [Authorize]
-        public ActionResult<TDto> Get([FromRoute] Guid id)
+        public virtual ActionResult<TDto> Get([FromRoute] Guid id)
         {
             _logger.LogDebug("Base controller get called. Id:{id}", id);
             var result = _service.Get(id);
@@ -31,7 +31,7 @@ namespace PhotoAlbum.API.Controllers.Base
         [HttpGet]
         [Route("list")]
         [Authorize]
-        public ActionResult<List<TDto>> List()
+        public virtual ActionResult<List<TDto>> List()
         {
             _logger.LogDebug("Base controller list called.");
             var result = _service.ListAll();
@@ -40,7 +40,7 @@ namespace PhotoAlbum.API.Controllers.Base
 
         [HttpPost]
         [Authorize]
-        public ActionResult<TDto> Add([FromBody] TDto dto)
+        public virtual ActionResult<TDto> Add([FromBody] TDto dto)
         {
             _logger.LogDebug("Base controller add called. Dto: {@dto}", dto);
             var result = _service.Add(dto);
@@ -50,7 +50,7 @@ namespace PhotoAlbum.API.Controllers.Base
         [HttpPut]
         [Route("{id}")]
         [Authorize]
-        public ActionResult<TDto> Update([FromRoute] Guid id, [FromBody] TDto dto)
+        public virtual ActionResult<TDto> Update([FromRoute] Guid id, [FromBody] TDto dto)
         {
             _logger.LogDebug("Base controller update called. Id:{id}, Dto: {@dto}", id, dto);
             var result = _service.Update(dto, id);
@@ -60,7 +60,7 @@ namespace PhotoAlbum.API.Controllers.Base
         [HttpDelete]
         [Route("{id}")]
         [Authorize]
-        public ActionResult Delete([FromRoute] Guid id)
+        public virtual ActionResult Delete([FromRoute] Guid id)
         {
             _logger.LogDebug("Base controller delete called. Id:{id}", id);
             _service.Delete(id);
