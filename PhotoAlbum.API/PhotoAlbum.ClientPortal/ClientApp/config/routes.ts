@@ -91,10 +91,6 @@
     redirect: '/albums',
   },
   {
-    path: '**',
-    redirect: '/',
-  },
-  {
     component: './404',
   },
 ];
