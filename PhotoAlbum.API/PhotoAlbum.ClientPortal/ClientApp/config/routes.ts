@@ -21,60 +21,57 @@
     ],
   },
   {
-    path: '/albums',
-    name: 'albums',
-    icon: 'folder',
-    authority: ['User'],
-    component: './Album/List',
-  },
-  {
-    path: '/photos',
-    hideInMenu: false,
-    name: 'photos',
-    icon: 'picture',
-    access: 'loggedIn',
-    authority: ['User'],
-    component: './Photo/List',
-  },
-  {
-    path: '/album',
-    hideInMenu: true,
-    access: 'loggedIn',
-    authority: ['User'],
-    routes: [
-      {
-        path: '/album/add',
-        name: 'add-album',
-        component: './Album',
-      },
-      {
-        path: '/album/edit',
-        name: 'edit-album',
-        component: './Album',
-      },
-    ],
-  },
-  {
-    path: '/photo',
-    hideInMenu: true,
-    access: 'loggedIn',
-    authority: ['User'],
-    routes: [
-      {
-        path: '/photo/add',
-        name: 'add-photo',
-        component: './Photo',
-      },
-      {
-        path: '/photo/edit',
-        name: 'edit-photo',
-        component: './Photo',
-      },
-    ],
-  },
-  {
     path: '/',
-    redirect: '/albums',
+    name: 'home',
+    access: 'loggedIn',
+    authority: ['User'],
+    routes: [
+      { path: '/', redirect: '/albums' },
+      {
+        path: '/albums',
+        name: 'albums',
+        icon: 'folder',
+        component: './Album/List',
+      },
+      {
+        path: '/photos',
+        name: 'photos',
+        icon: 'picture',
+        component: './Photo/List',
+      },
+      {
+        path: '/album',
+        hideInMenu: true,
+        routes: [
+          {
+            path: '/album/add',
+            name: 'add-album',
+            component: './Album',
+          },
+          {
+            path: '/album/edit',
+            name: 'edit-album',
+            component: './Album',
+          },
+        ],
+      },
+      {
+        path: '/photo',
+        hideInMenu: true,
+        routes: [
+          {
+            path: '/photo/add',
+            name: 'add-photo',
+            component: './Photo',
+          },
+          {
+            path: '/photo/edit',
+            name: 'edit-photo',
+            component: './Photo',
+          },
+        ],
+      },
+    ],
   },
   {
     component: './404',

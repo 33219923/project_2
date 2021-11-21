@@ -25,9 +25,10 @@ export default defineConfig({
   // https://umijs.org/zh-CN/plugins/plugin-locale
   locale: {
     default: 'en-US',
-    antd: true,
+    antd: false,
     // default true, when it is true, will use `navigator.language` overwrite default
     baseNavigator: true,
+    baseSeparator: '-',
   },
   dynamicImport: {
     loading: '@ant-design/pro-layout/es/PageLoading',
