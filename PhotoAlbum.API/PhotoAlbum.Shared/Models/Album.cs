@@ -20,5 +20,11 @@ namespace PhotoAlbum.Shared.Models
 
         [JsonProperty("createdByUserId")]
         public Guid CreatedByUserId { get; set; }
+
+        [JsonProperty("previewFilename")]
+        public string PreviewFilename { get; set; }
+
+        [JsonProperty("previewData")]
+        public byte[] PreviewData { get; set; }
     }
 }

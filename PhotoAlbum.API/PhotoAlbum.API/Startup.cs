@@ -128,6 +128,7 @@ namespace PhotoAlbum.API
             services.AddLogicServices();
             services.AddRepositories();
 
+            services.AddTransient<IBlobManager, BlobManager>();
             services.AddScoped<IRequestState, RequestState>();
         }
 

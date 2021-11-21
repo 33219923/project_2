@@ -14,23 +14,53 @@ namespace PhotoAlbum.Logic.Implentations
     public class PhotoService : BaseService<PhotoDto, PhotoModel>, IPhotoService
     {
         private readonly ISharedPhotoRepository _sharedPhotoRepository;
+        private readonly IBlobManager _blobManager;
         private readonly ApplicationDbContext _db;
 
         public PhotoService(ILogger<PhotoService> logger,
             IPhotoRepository repository,
             ApplicationDbContext db,
             ISharedPhotoRepository sharedPhotoRepository,
-            IRequestState requestState
+            IRequestState requestState,
+            IBlobManager blobManager
             ) : base(logger, repository, requestState)
         {
             _db = db;
             _sharedPhotoRepository = sharedPhotoRepository;
+            _blobManager = blobManager;
         }
 
         public override PhotoDto Add(PhotoDto dto)
         {
             var result = base.Add(dto);
+
+            //Upload to storage
+            if (dto.Data != null && dto.Data.Length > 0)
+                _blobManager.UploadPhoto(result.Id, dto.Data);
+
             _db.SaveChanges();
+
+            return result;
+        }
+
+        public override PhotoDto Get(Guid id)
+        {
+            var result = base.Get(id);
+
+            result.Data = _blobManager.DownloadPhoto(result.Id);
+
+            return result;
+        }
+
+        public override List<PhotoDto> ListAll()
+        {
+            var result = base.ListAll();
+
+            foreach (var photo in result)
+            {
+                photo.Data = _blobManager.DownloadPhoto(photo.Id);
+            }
+
             return result;
         }
 
@@ -56,12 +86,40 @@ namespace PhotoAlbum.Logic.Implentations
         public List<PhotoDto> ListAllShared()
         {
             var result = _sharedPhotoRepository.ListAllShared();
+
+            foreach(var photo in result)
+            {
+                photo.Data = _blobManager.DownloadPhoto(photo.Id);
+            }
+
             return result;
         }
 
         public override PhotoDto Update(PhotoDto dto, Guid id)
         {
             var result = base.Update(dto, id);
+
+            //Upload to storage
+            if (dto.Data != null && dto.Data.Length > 0)
+                _blobManager.UploadPhoto(id, dto.Data);
+
+            _db.SaveChanges();
+            return result;
+        }
+
+        public List<UserReference> ListAvailableUsers(Guid photoId)
+        {
+            return _sharedPhotoRepository.ListAvailableUsers(photoId);
+        }
+
+        public List<UserReference> ListSharedUsers(Guid photoId)
+        {
+            return _sharedPhotoRepository.ListSharedUsers(photoId);
+        }
+
+        public PhotoMetadata UpsertMetadata(PhotoMetadata metadata)
+        {
+            var result = _sharedPhotoRepository.UpsertMetadata(metadata);
             _db.SaveChanges();
             return result;
         }

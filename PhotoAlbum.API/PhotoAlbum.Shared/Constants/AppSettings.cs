@@ -7,5 +7,6 @@
         public const string JWT_ISSUER = "JWT_ISSUER";
         public const string JWT_EXPIRY_HOURS = "JWT_EXPIRY_HOURS";
         public const string ALLOWED_ORIGINS = "ALLOWED_ORIGINS";
+        public const string AZURE_STORAGE_CONNECTION_STRING = "AZURE_STORAGE_CONNECTION_STRING";
     }
 }

@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PhotoAlbum.Data;
 using PhotoAlbum.Repository.Implementations.Base;
 using PhotoAlbum.Repository.Interfaces;
-
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using PhotoDto = PhotoAlbum.Shared.Models.Photo;
 using PhotoModel = PhotoAlbum.Data.Models.Photo;
 
@@ -21,6 +24,25 @@ namespace PhotoAlbum.Repository.Implementations
             _db = db;
             _logger = logger;
             _autoMapper = autoMapper;
+        }
+
+        public override PhotoDto Get(Func<PhotoModel, bool> filter)
+        {
+            var entity = _db.Photos.Include(x => x.Metadata).AsNoTracking().FirstOrDefault(filter);
+
+            if (null != entity)
+                return _autoMapper.Map<PhotoDto>(entity);
+
+            return null;
+        }
+
+        public override List<PhotoDto> ListAll(Func<PhotoModel, bool> filter = null)
+        {
+            IEnumerable<PhotoModel> query = _db.Set<PhotoModel>().AsNoTracking().Include(x => x.Metadata);
+
+            if (filter != null) query = query.Where(filter);
+
+            return _autoMapper.Map<List<PhotoDto>>(query.ToList());
         }
     }
 }

@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using PhotoAlbum.API.Controllers.Base;
 using PhotoAlbum.Logic.Interfaces;
 using PhotoAlbum.Shared.Models;
+using System;
 using System.Collections.Generic;
 
 namespace PhotoAlbum.API.Controllers
@@ -24,10 +25,20 @@ namespace PhotoAlbum.API.Controllers
         [HttpPost]
         [Route("share")]
         [Authorize]
-        public ActionResult<SharedPhoto> ShareAlbum([FromBody] SharedPhoto sharedPhoto)
+        public ActionResult<SharedPhoto> SharePhoto([FromBody] SharedPhoto sharedPhoto)
         {
-            _logger.LogDebug("Album controller share photo called. SharedAlbum: {sharedPhoto}", sharedPhoto);
+            _logger.LogDebug("Photo controller share photo called. SharedPhoto: {sharedPhoto}", sharedPhoto);
             var result = _photoService.SharePhoto(sharedPhoto);
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("metadata")]
+        [Authorize]
+        public ActionResult<SharedPhoto> UpsertPhoto([FromBody] PhotoMetadata metaData)
+        {
+            _logger.LogDebug("Photo controller upsert photo data called. PhotoMetadata: {PhotoMetadata}", metaData);
+            var result = _photoService.UpsertMetadata(metaData);
             return Ok(result);
         }
 
@@ -36,7 +47,7 @@ namespace PhotoAlbum.API.Controllers
         [Authorize]
         public ActionResult UnsharePhoto([FromBody] SharedPhoto sharedPhoto)
         {
-            _logger.LogDebug("Album controller unshare photo called. SharedAlbum: {sharedPhoto}", sharedPhoto);
+            _logger.LogDebug("Photo controller unshare photo called. SharedPhoto: {sharedPhoto}", sharedPhoto);
             _photoService.UnsharePhoto(sharedPhoto);
             return Ok();
         }
@@ -47,6 +58,24 @@ namespace PhotoAlbum.API.Controllers
         public virtual ActionResult<List<Photo>> ListShared()
         {
             var result = _photoService.ListAllShared();
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("list/shared/{photoId}/available")]
+        [Authorize]
+        public virtual ActionResult<List<UserReference>> ListAvailableUsers([FromRoute] Guid photoId)
+        {
+            var result = _photoService.ListAvailableUsers(photoId);
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("list/shared/{photoId}")]
+        [Authorize]
+        public virtual ActionResult<List<UserReference>> ListSharedUsers([FromRoute] Guid photoId)
+        {
+            var result = _photoService.ListSharedUsers(photoId);
             return Ok(result);
         }
 

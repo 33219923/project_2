@@ -141,3 +141,111 @@ export async function listPhotos(options?: { [key: string]: any }) {
     ...(options || {}),
   });
 }
+
+export async function listPhotoAvailableUsers(photoId: string, options?: { [key: string]: any }) {
+  return request<API.CurrentUser>(`${API_URL}/api/photo/list/shared/${photoId}/available`, {
+    method: 'GET',
+    ...(options || {}),
+  });
+}
+
+export async function listPhotoSharedUsers(photoId: string, options?: { [key: string]: any }) {
+  return request<API.CurrentUser>(`${API_URL}/api/photo/list/shared/${photoId}`, {
+    method: 'GET',
+    ...(options || {}),
+  });
+}
+
+export async function sharePhoto(
+  photoId: string,
+  userId: string,
+  options?: { [key: string]: any },
+) {
+  return request<string>(`${API_URL}/api/photo/share`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: {
+      photoId,
+      userId,
+    },
+    ...(options || {}),
+  });
+}
+
+export async function unsharePhoto(
+  photoId: string,
+  userId: string,
+  options?: { [key: string]: any },
+) {
+  return request<string>(`${API_URL}/api/photo/unshare`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: {
+      photoId,
+      userId,
+    },
+    ...(options || {}),
+  });
+}
+
+export async function listSharedPhotos(options?: { [key: string]: any }) {
+  return request<API.CurrentUser>(`${API_URL}/api/photo/list/shared`, {
+    method: 'GET',
+    ...(options || {}),
+  });
+}
+
+export async function getPhoto(id: string, options?: { [key: string]: any }) {
+  return request<API.CurrentUser>(`${API_URL}/api/photo/${id}`, {
+    method: 'GET',
+    ...(options || {}),
+  });
+}
+
+export async function addPhoto(body: any, options?: { [key: string]: any }) {
+  return request<string>(`${API_URL}/api/photo`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
+export async function updatePhoto(
+  id: string,
+  body: API.LoginParams,
+  options?: { [key: string]: any },
+) {
+  return request<string>(`${API_URL}/api/photo/${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
+export async function deletePhoto(id: string, options?: { [key: string]: any }) {
+  return request<API.CurrentUser>(`${API_URL}/api/photo/${id}`, {
+    method: 'DELETE',
+    ...(options || {}),
+  });
+}
+
+export async function upsertMetadata(body: any, options?: { [key: string]: any }) {
+  return request<string>(`${API_URL}/api/photo/metadata`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}

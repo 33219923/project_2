@@ -51,14 +51,17 @@ export default (props: any): React.ReactNode => {
     const handleSubmit = async (values: any) => {
         setLoading(true);
         try {
+            let albumId = album?.id;
+
             if (mode === 'add') {
-                await addAlbum({ ...values });
+                const response: any = await addAlbum({ ...values });
                 message.success("Successfully added the album!");
+                albumId = response?.id;
             } else {
                 await updateAlbum(album.id, { ...values });
                 message.success("Successfully updated the album!");
             }
-            history.push(`/album/view?id=${album.id}`)
+            history.push(`/album/view?id=${albumId}`)
         } catch (error: any) {
             const defaultLoginFailureMessage = error?.message || intl.formatMessage({
                 id: 'pages.login.failure',

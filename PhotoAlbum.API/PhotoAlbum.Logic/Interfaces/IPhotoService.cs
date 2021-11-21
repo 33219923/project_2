@@ -13,5 +13,8 @@ namespace PhotoAlbum.Logic.Interfaces
         SharedPhoto SharePhoto(SharedPhoto sharedPhoto);
         void UnsharePhoto(SharedPhoto sharedPhoto);
         List<Photo> ListAllShared();
+        List<UserReference> ListAvailableUsers(Guid photoId);
+        List<UserReference> ListSharedUsers(Guid photoId);
+        PhotoMetadata UpsertMetadata(PhotoMetadata metaData);
     }
 }
