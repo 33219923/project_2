@@ -21,24 +21,27 @@
     ],
   },
   {
+    path: '/albums',
+    name: 'albums',
+    icon: 'folder',
+    component: './Album/List',
+    access: 'loggedIn',
+    authority: ['User'],
+  },
+  {
+    path: '/photos',
+    name: 'photos',
+    icon: 'picture',
+    component: './Photo/List',
+    access: 'loggedIn',
+    authority: ['User'],
+  },
+  {
     path: '/',
-    name: 'home',
-    //access: 'loggedIn',
-    //authority: ['User'],
+    access: 'loggedIn',
+    authority: ['User'],
     routes: [
       { path: '/', redirect: '/albums' },
-      {
-        path: '/albums',
-        name: 'albums',
-        icon: 'folder',
-        component: './Album/List',
-      },
-      {
-        path: '/photos',
-        name: 'photos',
-        icon: 'picture',
-        component: './Photo/List',
-      },
       {
         path: '/album',
         hideInMenu: true,
