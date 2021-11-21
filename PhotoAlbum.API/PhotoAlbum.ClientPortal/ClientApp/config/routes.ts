@@ -23,8 +23,8 @@
   {
     path: '/',
     name: 'home',
-    access: 'loggedIn',
-    authority: ['User'],
+    //access: 'loggedIn',
+    //authority: ['User'],
     routes: [
       { path: '/', redirect: '/albums' },
       {
