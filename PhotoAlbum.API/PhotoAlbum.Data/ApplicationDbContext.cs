@@ -49,7 +49,7 @@ namespace PhotoAlbum.Data
         {
             var entries = ChangeTracker
                 .Entries()
-                .Where(e => e.Entity is ICreatedTracking && (
+                .Where(e => (e.Entity is ICreatedTracking || e.Entity is ICreatedUserTracking) && (
                         e.State == EntityState.Added
                         || e.State == EntityState.Modified));
 
@@ -57,11 +57,23 @@ namespace PhotoAlbum.Data
             {
                 if (entityEntry.State == EntityState.Added)
                 {
-                    if (entityEntry.Entity.GetType().IsAssignableFrom(typeof(ICreatedTracking)))
+                    try
+                    {
                         ((ICreatedTracking)entityEntry.Entity).CreatedDate = DateTimeOffset.UtcNow;
+                    }
+                    catch (Exception ex)
+                    {
 
-                    if (entityEntry.Entity.GetType().IsAssignableFrom(typeof(ICreatedUserTracking)))
-                        ((ICreatedTracking)entityEntry.Entity).CreatedDate = DateTimeOffset.UtcNow;
+                    }
+
+                    try
+                    {
+                        ((ICreatedUserTracking)entityEntry.Entity).CreatedByUserId = _requestState.UserId.Value;
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
                 }
             }
 

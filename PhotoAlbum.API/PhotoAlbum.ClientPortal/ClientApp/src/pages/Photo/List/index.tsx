@@ -1,12 +1,30 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
-import { Button, Card, Image } from 'antd';
-import { useIntl, history } from 'umi';
-import styles from './index.less';
+import { Button, Card, Empty, Image, message } from 'antd';
+import { history } from 'umi';
 import { VideoCameraAddOutlined } from '@ant-design/icons';
+import { listPhotos } from '@/services/api';
+import { isArray } from 'lodash';
 
 export default (): React.ReactNode => {
-    const intl = useIntl();
+    const [photos, setPhotos] = useState<any[]>([]);
+
+    useEffect(() => {
+        refreshPhotos();
+    }, []);
+
+    const refreshPhotos = async () => {
+        try {
+            const response = await listPhotos();
+            if (isArray(response)) {
+                setPhotos(response)
+            }
+        } catch (error) {
+            message.error("Unable to refresh the photos!");
+        }
+    }
+
+    const renderNoPhotos = (): JSX.Element => <>NO PHOTOS</>
 
     const handleAddClicked = () => {
         history.push('/photo/add');
@@ -41,7 +59,8 @@ export default (): React.ReactNode => {
             extra={renderActions()}
         >
             <Card >
-                {renderPhoto(undefined)}
+                {photos.length > 0 && photos.map(photo => renderPhoto(photo))}
+                {photos.length === 0 && renderNoPhotos()}
             </Card>
         </PageContainer>
     );

@@ -53,8 +53,10 @@ export default {
   'menu.album': 'Album',
   'menu.add-album': 'Add Album',
   'menu.edit-album': 'Edit Album',
+  'menu.view-album': 'View Album',
   'menu.photos': 'Photos',
   'menu.photo': 'Photo',
   'menu.add-photo': 'Add Photo',
   'menu.edit-photo': 'Edit Photo',
+  'menu.view-photo': 'View Photo',
 };

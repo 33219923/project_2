@@ -14,13 +14,13 @@ namespace PhotoAlbum.Repository.Utils
         {
             services.AddAutoMapper(cfg =>
             {
-                cfg.CreateMap<Shared.Models.Album, Data.Models.Album>();
+                cfg.CreateMap<Shared.Models.Album, Data.Models.Album>().ForMember(src => src.Id, mOpt => mOpt.Ignore());
                 cfg.CreateMap<Data.Models.Album, Shared.Models.Album>();
 
-                cfg.CreateMap<Shared.Models.Photo, Data.Models.Photo>();
+                cfg.CreateMap<Shared.Models.Photo, Data.Models.Photo>().ForMember(src => src.Id, mOpt => mOpt.Ignore());
                 cfg.CreateMap<Data.Models.Photo, Shared.Models.Photo>();
 
-                cfg.CreateMap<Shared.Models.PhotoMetadata, Data.Models.PhotoMetadata>();
+                cfg.CreateMap<Shared.Models.PhotoMetadata, Data.Models.PhotoMetadata>().ForMember(src => src.PhotoId, mOpt => mOpt.Ignore());
                 cfg.CreateMap<Data.Models.PhotoMetadata, Shared.Models.PhotoMetadata>();
 
                 cfg.CreateMap<Shared.Models.SharedAlbum, Data.Models.SharedAlbum>();

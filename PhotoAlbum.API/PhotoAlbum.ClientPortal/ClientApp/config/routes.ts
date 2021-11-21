@@ -16,6 +16,9 @@
             path: '/user/register',
             component: './Register',
           },
+          {
+            component: './404',
+          },
         ],
       },
     ],
@@ -27,6 +30,11 @@
     component: './Album/List',
     access: 'loggedIn',
     authority: ['User'],
+    routes: [
+      {
+        component: './404',
+      },
+    ],
   },
   {
     path: '/photos',
@@ -35,6 +43,11 @@
     component: './Photo/List',
     access: 'loggedIn',
     authority: ['User'],
+    routes: [
+      {
+        component: './404',
+      },
+    ],
   },
   {
     path: '/',
@@ -56,6 +69,14 @@
             name: 'edit-album',
             component: './Album',
           },
+          {
+            path: '/album/view',
+            name: 'view-album',
+            component: './Album/View',
+          },
+          {
+            component: './404',
+          },
         ],
       },
       {
@@ -71,6 +92,14 @@
             path: '/photo/edit',
             name: 'edit-photo',
             component: './Photo',
+          },
+          {
+            path: '/photo/view',
+            name: 'view-photo',
+            component: './Photo/View',
+          },
+          {
+            component: './404',
           },
         ],
       },

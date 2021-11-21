@@ -30,3 +30,50 @@ export async function login(body: API.LoginParams, options?: { [key: string]: an
     ...(options || {}),
   });
 }
+
+export async function listAlbums(options?: { [key: string]: any }) {
+  return request<API.CurrentUser>(`${API_URL}/api/album/list`, {
+    method: 'GET',
+    ...(options || {}),
+  });
+}
+
+export async function getAlbum(id: string, options?: { [key: string]: any }) {
+  return request<API.CurrentUser>(`${API_URL}/api/album/${id}`, {
+    method: 'GET',
+    ...(options || {}),
+  });
+}
+
+export async function addAlbum(body: API.LoginParams, options?: { [key: string]: any }) {
+  return request<string>(`${API_URL}/api/album`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
+export async function updateAlbum(
+  id: string,
+  body: API.LoginParams,
+  options?: { [key: string]: any },
+) {
+  return request<string>(`${API_URL}/api/album/${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
+export async function listPhotos(options?: { [key: string]: any }) {
+  return request<API.CurrentUser>(`${API_URL}/api/photo/list`, {
+    method: 'GET',
+    ...(options || {}),
+  });
+}
