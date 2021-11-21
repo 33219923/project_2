@@ -63,5 +63,5 @@ export default defineConfig({
   nodeModulesTransform: { type: 'none' },
   mfsu: {},
   webpack5: {},
-  exportStatic: {},
+  //exportStatic: {},
 });
