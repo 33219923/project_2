@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import { Button, Card, Form, message } from 'antd';
-import { useHistory, useIntl } from 'umi';
+import { useHistory, useIntl, useModel } from 'umi';
 import styles from './index.less';
-import { addAlbum, getAlbum, updateAlbum } from '@/services/api';
+import { addAlbum, deleteAlbum, getAlbum, updateAlbum } from '@/services/api';
 import ProForm, { ProFormText } from '@ant-design/pro-form';
-import { CloseOutlined, ThunderboltOutlined } from '@ant-design/icons';
+import { ArrowLeftOutlined, CloseOutlined, DeleteOutlined, ThunderboltOutlined } from '@ant-design/icons';
 
 export default (props: any): React.ReactNode => {
+    const { initialState, setInitialState } = useModel('@@initialState');
+
+    console.log("Album Edit=> ", initialState?.currentUser?.id);
+
     const intl = useIntl();
     const [form] = Form.useForm();
     const history = useHistory();
@@ -64,8 +68,32 @@ export default (props: any): React.ReactNode => {
         setLoading(false);
     };
 
+    const handleDeleteClicked = async () => {
+        setLoading(true);
+        try {
+            await deleteAlbum(album.id);
+            message.success("Successfully deleted the album!");
+            history.push(`/albums`)
+        } catch (error: any) {
+            message.error("Failed to delete the album!");
+        }
+        setLoading(false);
+    }
+
+    const handleCancelClicked = () => {
+        if (album?.id) history.push(`/album/view?id=${album.id}`)
+        else history.push(`/albums`);
+    }
+
+    const renderActions = (): JSX.Element => <>
+        {mode === 'edit' && initialState?.currentUser?.id && album?.createdByUserId === initialState?.currentUser?.id && <Button type='primary' icon={<DeleteOutlined />} onClick={handleDeleteClicked}>Delete Album</Button>}
+        <Button type='default' icon={<ArrowLeftOutlined />} onClick={handleCancelClicked}>Back</Button>
+    </>
+
     return (
-        <PageContainer>
+        <PageContainer
+            extra={renderActions()}
+        >
             <Card >
                 <ProForm
                     form={form}
@@ -77,10 +105,7 @@ export default (props: any): React.ReactNode => {
                                     style={{ width: '100%', marginTop: 10 }}
                                     onClick={() => { form.submit() }}>{mode === 'edit' ? 'Update' : 'Create'}</Button>
                                 <Button type='default' icon={<CloseOutlined />} style={{ width: '100%', marginTop: 10 }}
-                                    onClick={() => {
-                                        if (album?.id) history.push(`/album/view?id=${album.id}`)
-                                        else history.push(`/albums`);
-                                    }}>Cancel</Button>
+                                    onClick={handleCancelClicked}>Cancel</Button>
                             </>
                         }
                     }}

@@ -3,16 +3,18 @@ import { PageContainer } from '@ant-design/pro-layout';
 import { Button, Card, Image, message, Typography } from 'antd';
 import { history } from 'umi';
 import { FolderAddOutlined } from '@ant-design/icons';
-import { listAlbums } from '@/services/api';
+import { listAlbums, listSharedAlbums } from '@/services/api';
 import { isArray } from 'lodash';
 
 const { Title, Text } = Typography;
 
 export default (): React.ReactNode => {
     const [albums, setAlbums] = useState<any[]>([]);
+    const [sharedAlbums, setSharedAlbums] = useState<any[]>([]);
 
     useEffect(() => {
         refreshAlbums();
+        refreshSharedAlbums();
     }, []);
 
     const refreshAlbums = async () => {
@@ -23,6 +25,17 @@ export default (): React.ReactNode => {
             }
         } catch (error) {
             message.error("Unable to refresh the albums!");
+        }
+    }
+
+    const refreshSharedAlbums = async () => {
+        try {
+            const response = await listSharedAlbums();
+            if (isArray(response)) {
+                setSharedAlbums(response)
+            }
+        } catch (error) {
+            message.error("Unable to refresh the shared albums!");
         }
     }
 
@@ -38,6 +51,7 @@ export default (): React.ReactNode => {
 
     const renderAlbum = (album: any): JSX.Element => {
         return <Card.Grid
+            key={album.id}
             hoverable
             style={{ width: 250 }}
         >
@@ -63,9 +77,14 @@ export default (): React.ReactNode => {
             title={'Albums'}
             extra={renderActions()}
         >
-            <Card >
+            <Card title='My Albums'>
                 {albums.length > 0 && albums.map(album => renderAlbum(album))}
                 {albums.length === 0 && renderNoAlbums}
+            </Card>
+            <br />
+            <Card title='Albums Shared With Me'>
+                {sharedAlbums.length > 0 && sharedAlbums.map(album => renderAlbum(album))}
+                {sharedAlbums.length === 0 && renderNoAlbums}
             </Card>
         </PageContainer>
     );

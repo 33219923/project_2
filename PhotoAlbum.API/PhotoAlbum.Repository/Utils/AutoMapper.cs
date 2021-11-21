@@ -31,6 +31,9 @@ namespace PhotoAlbum.Repository.Utils
 
                 cfg.CreateMap<Shared.Models.User, Data.Models.ApplicationUser>().ForMember(src => src.Id, mOpt => mOpt.Ignore());
                 cfg.CreateMap<Data.Models.ApplicationUser, Shared.Models.User>();
+
+                cfg.CreateMap<Data.Models.ApplicationUser, Shared.Models.UserReference>()
+                .ForMember(src=> src.Name, mOpt=> mOpt.MapFrom(x=> string.Join(" ", x.Name, x.Surname)));
             },
             //Provide context where models exist
             typeof(Shared.Models.User), typeof(Data.Models.ApplicationUser));

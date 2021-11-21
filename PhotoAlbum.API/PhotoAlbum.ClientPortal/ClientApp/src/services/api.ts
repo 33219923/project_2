@@ -38,6 +38,27 @@ export async function listAlbums(options?: { [key: string]: any }) {
   });
 }
 
+export async function listSharedAlbums(options?: { [key: string]: any }) {
+  return request<API.CurrentUser>(`${API_URL}/api/album/list/shared`, {
+    method: 'GET',
+    ...(options || {}),
+  });
+}
+
+export async function listAlbumAvailableUsers(albumId: string, options?: { [key: string]: any }) {
+  return request<API.CurrentUser>(`${API_URL}/api/album/list/shared/${albumId}/available`, {
+    method: 'GET',
+    ...(options || {}),
+  });
+}
+
+export async function listAlbumSharedUsers(albumId: string, options?: { [key: string]: any }) {
+  return request<API.CurrentUser>(`${API_URL}/api/album/list/shared/${albumId}`, {
+    method: 'GET',
+    ...(options || {}),
+  });
+}
+
 export async function getAlbum(id: string, options?: { [key: string]: any }) {
   return request<API.CurrentUser>(`${API_URL}/api/album/${id}`, {
     method: 'GET',
@@ -67,6 +88,49 @@ export async function updateAlbum(
       'Content-Type': 'application/json',
     },
     data: body,
+    ...(options || {}),
+  });
+}
+
+export async function deleteAlbum(id: string, options?: { [key: string]: any }) {
+  return request<API.CurrentUser>(`${API_URL}/api/album/${id}`, {
+    method: 'DELETE',
+    ...(options || {}),
+  });
+}
+
+export async function shareAlbum(
+  albumId: string,
+  userId: string,
+  options?: { [key: string]: any },
+) {
+  return request<string>(`${API_URL}/api/album/share`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: {
+      albumId,
+      userId,
+    },
+    ...(options || {}),
+  });
+}
+
+export async function unshareAlbum(
+  albumId: string,
+  userId: string,
+  options?: { [key: string]: any },
+) {
+  return request<string>(`${API_URL}/api/album/unshare`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: {
+      albumId,
+      userId,
+    },
     ...(options || {}),
   });
 }

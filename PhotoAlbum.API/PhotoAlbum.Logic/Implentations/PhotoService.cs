@@ -2,9 +2,10 @@
 using PhotoAlbum.Data;
 using PhotoAlbum.Logic.Interfaces;
 using PhotoAlbum.Repository.Interfaces;
-using PhotoAlbum.Repository.Interfaces.Base;
 using PhotoAlbum.Shared.Models;
+using PhotoAlbum.Shared.Services;
 using System;
+using System.Collections.Generic;
 using PhotoDto = PhotoAlbum.Shared.Models.Photo;
 using PhotoModel = PhotoAlbum.Data.Models.Photo;
 
@@ -18,7 +19,9 @@ namespace PhotoAlbum.Logic.Implentations
         public PhotoService(ILogger<PhotoService> logger,
             IPhotoRepository repository,
             ApplicationDbContext db,
-            ISharedPhotoRepository sharedPhotoRepository) : base(logger, repository)
+            ISharedPhotoRepository sharedPhotoRepository,
+            IRequestState requestState
+            ) : base(logger, repository, requestState)
         {
             _db = db;
             _sharedPhotoRepository = sharedPhotoRepository;
@@ -48,6 +51,12 @@ namespace PhotoAlbum.Logic.Implentations
         {
             _sharedPhotoRepository.Delete(x => x.PhotoId == sharedPhoto.PhotoId && x.UserId == sharedPhoto.UserId);
             _db.SaveChanges();
+        }
+
+        public List<PhotoDto> ListAllShared()
+        {
+            var result = _sharedPhotoRepository.ListAllShared();
+            return result;
         }
 
         public override PhotoDto Update(PhotoDto dto, Guid id)

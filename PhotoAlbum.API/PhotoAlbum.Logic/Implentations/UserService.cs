@@ -6,6 +6,7 @@ using PhotoAlbum.Logic.Interfaces;
 using PhotoAlbum.Repository.Interfaces;
 using PhotoAlbum.Shared.Constants;
 using PhotoAlbum.Shared.Models;
+using PhotoAlbum.Shared.Services;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -20,7 +21,8 @@ namespace PhotoAlbum.Logic.Implentations
         private readonly IUserRepository _userRepository;
         private readonly IConfiguration _configuration;
 
-        public UserService(ILogger<UserService> logger, IUserRepository userRepository, IConfiguration configuration) : base(logger, userRepository)
+        public UserService(ILogger<UserService> logger, IUserRepository userRepository, IConfiguration configuration,
+             IRequestState requestState) : base(logger, userRepository, requestState)
         {
             _logger = logger;
             _userRepository = userRepository;

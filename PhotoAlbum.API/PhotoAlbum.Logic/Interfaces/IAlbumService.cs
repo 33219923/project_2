@@ -12,5 +12,8 @@ namespace PhotoAlbum.Logic.Interfaces
     {
         SharedAlbum ShareAlbum(SharedAlbum sharedAlbum);
         void UnshareAlbum(SharedAlbum sharedAlbum);
+        List<Album> ListAllShared();
+        List<UserReference> ListAvailableUsers(Guid albumId);
+        List<UserReference> ListSharedUsers(Guid albumId);
     }
 }

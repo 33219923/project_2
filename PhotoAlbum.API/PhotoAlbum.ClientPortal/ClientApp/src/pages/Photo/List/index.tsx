@@ -36,6 +36,7 @@ export default (): React.ReactNode => {
 
     const renderPhoto = (photo: any): JSX.Element => {
         return <Card
+            key={photo.id}
             hoverable
             style={{ width: 200 }}
             cover={<Image

@@ -7,18 +7,12 @@ using System.Threading.Tasks;
 
 namespace PhotoAlbum.Shared.Models
 {
-    public class Album
+    public class UserReference
     {
         [JsonProperty("id")]
         public Guid Id { get; set; }
 
         [JsonProperty("name")]
         public string Name { get; set; }
-
-        [JsonProperty("description")]
-        public string Description { get; set; }
-
-        [JsonProperty("createdByUserId")]
-        public Guid CreatedByUserId { get; set; }
     }
 }

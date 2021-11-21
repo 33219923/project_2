@@ -12,5 +12,6 @@ namespace PhotoAlbum.Logic.Interfaces
     {
         SharedPhoto SharePhoto(SharedPhoto sharedPhoto);
         void UnsharePhoto(SharedPhoto sharedPhoto);
+        List<Photo> ListAllShared();
     }
 }

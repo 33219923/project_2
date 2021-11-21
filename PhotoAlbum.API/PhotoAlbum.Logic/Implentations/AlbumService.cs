@@ -4,6 +4,7 @@ using PhotoAlbum.Logic.Interfaces;
 using PhotoAlbum.Repository.Interfaces;
 using PhotoAlbum.Repository.Interfaces.Base;
 using PhotoAlbum.Shared.Models;
+using PhotoAlbum.Shared.Services;
 using System;
 using System.Collections.Generic;
 using AlbumDto = PhotoAlbum.Shared.Models.Album;
@@ -16,10 +17,12 @@ namespace PhotoAlbum.Logic.Implentations
         private readonly ISharedAlbumRepository _sharedAlbumRepository;
         private readonly ApplicationDbContext _db;
 
-        public AlbumService(ILogger<AlbumService> logger, 
-            IAlbumRepository repository, 
+        public AlbumService(ILogger<AlbumService> logger,
+            IAlbumRepository repository,
             ApplicationDbContext db,
-            ISharedAlbumRepository sharedAlbumRepository) : base(logger, repository)
+            ISharedAlbumRepository sharedAlbumRepository,
+            IRequestState requestState
+            ) : base(logger, repository, requestState)
         {
             _sharedAlbumRepository = sharedAlbumRepository;
             _db = db;
@@ -47,8 +50,13 @@ namespace PhotoAlbum.Logic.Implentations
 
         public void UnshareAlbum(SharedAlbum sharedAlbum)
         {
-             _sharedAlbumRepository.Delete(x => x.AlbumId == sharedAlbum.AlbumId && x.UserId == sharedAlbum.UserId);
+            _sharedAlbumRepository.Delete(x => x.AlbumId == sharedAlbum.AlbumId && x.UserId == sharedAlbum.UserId);
             _db.SaveChanges();
+        }
+
+        public List<Album> ListAllShared()
+        {
+            return _sharedAlbumRepository.ListAllShared();
         }
 
         public override AlbumDto Update(AlbumDto dto, Guid id)
@@ -56,6 +64,16 @@ namespace PhotoAlbum.Logic.Implentations
             var result = base.Update(dto, id);
             _db.SaveChanges();
             return result;
+        }
+
+        public List<UserReference> ListAvailableUsers(Guid albumId)
+        {
+            return _sharedAlbumRepository.ListAvailableUsers(albumId);
+        }
+
+        public List<UserReference> ListSharedUsers(Guid albumId)
+        {
+            return _sharedAlbumRepository.ListSharedUsers(albumId);
         }
     }
 }

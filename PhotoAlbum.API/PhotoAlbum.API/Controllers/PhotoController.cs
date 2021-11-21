@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using PhotoAlbum.API.Controllers.Base;
 using PhotoAlbum.Logic.Interfaces;
 using PhotoAlbum.Shared.Models;
+using System.Collections.Generic;
 
 namespace PhotoAlbum.API.Controllers
 {
@@ -38,6 +39,15 @@ namespace PhotoAlbum.API.Controllers
             _logger.LogDebug("Album controller unshare photo called. SharedAlbum: {sharedPhoto}", sharedPhoto);
             _photoService.UnsharePhoto(sharedPhoto);
             return Ok();
+        }
+
+        [HttpGet]
+        [Route("list/shared")]
+        [Authorize]
+        public virtual ActionResult<List<Photo>> ListShared()
+        {
+            var result = _photoService.ListAllShared();
+            return Ok(result);
         }
 
     }

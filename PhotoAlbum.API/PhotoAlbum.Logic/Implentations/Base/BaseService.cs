@@ -2,6 +2,7 @@
 using PhotoAlbum.Data.Interfaces;
 using PhotoAlbum.Logic.Interfaces.Base;
 using PhotoAlbum.Repository.Interfaces.Base;
+using PhotoAlbum.Shared.Services;
 using System;
 using System.Collections.Generic;
 
@@ -11,11 +12,13 @@ namespace PhotoAlbum.Logic.Implentations
     {
         private readonly ILogger _logger;
         private readonly IBaseRepository<TDto, TEntity> _repository;
+        private readonly IRequestState _requestState;
 
-        public  BaseService(ILogger logger, IBaseRepository<TDto, TEntity> repository)
+        public  BaseService(ILogger logger, IBaseRepository<TDto, TEntity> repository, IRequestState requestState)
         {
             _logger = logger;
             _repository = repository;
+            _requestState = requestState;
         }
 
         public virtual TDto Add(TDto dto)
@@ -39,7 +42,11 @@ namespace PhotoAlbum.Logic.Implentations
         public virtual List<TDto> ListAll()
         {
             _logger.LogDebug("Base service list all called!");
-            return _repository.ListAll();
+
+            if (!_requestState.UserId.HasValue)
+                return new List<TDto>();
+
+            return _repository.ListAll(x=> ((ICreatedUserTracking)x).CreatedByUserId == _requestState.UserId);
         }
 
         public virtual TDto Update(TDto dto, Guid id)
