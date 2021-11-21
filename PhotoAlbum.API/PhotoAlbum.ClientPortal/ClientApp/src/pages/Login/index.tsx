@@ -64,7 +64,7 @@ const Login: React.FC = () => {
           submitter={{
             render: (props, dom) => {
               return <>
-                <Button type='primary' htmlType="submit" icon={<ThunderboltOutlined />} style={{ width: '100%', marginTop: 10 }}>{intl.formatMessage({ id: 'pages.login.submitText' })}</Button>
+                <Button type='primary' icon={<ThunderboltOutlined />} style={{ width: '100%', marginTop: 10 }} onClick={() => { props.form?.submit() }}>{intl.formatMessage({ id: 'pages.login.submitText' })}</Button>
               </>
             }
           }}
