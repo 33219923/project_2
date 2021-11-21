@@ -18,23 +18,23 @@
           },
         ],
       },
-      {
-        component: './404',
-      },
     ],
   },
   {
-    hideInMenu: false,
     path: '/albums',
     name: 'albums',
     icon: 'folder',
     authority: ['User'],
     component: './Album/List',
-    routes: [
-      {
-        component: './404',
-      },
-    ],
+  },
+  {
+    path: '/photos',
+    hideInMenu: false,
+    name: 'photos',
+    icon: 'picture',
+    access: 'loggedIn',
+    authority: ['User'],
+    component: './Photo/List',
   },
   {
     path: '/album',
@@ -52,18 +52,7 @@
         name: 'edit-album',
         component: './Album',
       },
-      {
-        component: './404',
-      },
     ],
-  },
-  {
-    path: '/photos',
-    name: 'photos',
-    icon: 'picture',
-    access: 'loggedIn',
-    authority: ['User'],
-    component: './Photo/List',
   },
   {
     path: '/photo',
@@ -80,9 +69,6 @@
         path: '/photo/edit',
         name: 'edit-photo',
         component: './Photo',
-      },
-      {
-        component: './404',
       },
     ],
   },
