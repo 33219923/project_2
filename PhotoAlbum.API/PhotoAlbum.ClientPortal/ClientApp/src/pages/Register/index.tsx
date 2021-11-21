@@ -45,7 +45,7 @@ const Register: React.FC = () => {
                     submitter={{
                         render: (props, dom) => {
                             return <>
-                                <Button type='primary' htmlType="submit" icon={<ThunderboltOutlined />} style={{ width: '100%', marginTop: 10 }}>Register</Button>
+                                <Button type='primary' icon={<ThunderboltOutlined />} style={{ width: '100%', marginTop: 10 }} onClick={() => { props.form?.submit() }}>Register</Button>
                                 <Button type='default' icon={<CloseOutlined />} style={{ width: '100%', marginTop: 10 }} onClick={handleCancel}>Cancel</Button>
                             </>
                         }
