@@ -36,7 +36,7 @@ namespace PhotoAlbum.Data
 
 
             builder.Entity<PhotoMetadata>()
-                .HasGeneratedTsVectorColumn(x => x.SearchVector, "english", x => new { x.Tags, x.Geolocation })
+                .HasGeneratedTsVectorColumn(x => x.SearchVector, "english", x => new { Tags = x.Tags, Geolocation = x.Geolocation })
                 .HasIndex(x => x.SearchVector)
                 .HasMethod("GIN");
 

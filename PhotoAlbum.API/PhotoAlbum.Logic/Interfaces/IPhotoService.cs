@@ -10,9 +10,10 @@ namespace PhotoAlbum.Logic.Interfaces
 {
     public interface IPhotoService : IBaseService<Photo>
     {
+        List<Photo> Search(string searchString = null);
         SharedPhoto SharePhoto(SharedPhoto sharedPhoto);
         void UnsharePhoto(SharedPhoto sharedPhoto);
-        List<Photo> ListAllShared();
+        List<Photo> ListAllShared(string searchString = null);
         List<UserReference> ListAvailableUsers(Guid photoId);
         List<UserReference> ListSharedUsers(Guid photoId);
         PhotoMetadata UpsertMetadata(PhotoMetadata metaData);

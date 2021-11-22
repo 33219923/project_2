@@ -75,7 +75,9 @@ export default (props: any): React.ReactNode => {
 
                 message.success("Successfully added the photo!");
             } else {
-                await updatePhoto(photo.id, { ...fileData });
+                if (fileData?.filename)
+                    await updatePhoto(photo.id, { ...fileData });
+
                 await upsertMetadata({ photoId, ...values });
 
                 message.success("Successfully updated the photo!");

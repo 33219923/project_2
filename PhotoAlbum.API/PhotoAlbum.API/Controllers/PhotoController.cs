@@ -22,6 +22,15 @@ namespace PhotoAlbum.API.Controllers
             _photoService = photoService;
         }
 
+        [HttpGet]
+        [Route("search")]
+        [Authorize]
+        public ActionResult<SharedPhoto> SearchPhoto([FromQuery] string searchString)
+        {
+            var result = _photoService.Search(searchString);
+            return Ok(result);
+        }
+
         [HttpPost]
         [Route("share")]
         [Authorize]
@@ -55,9 +64,9 @@ namespace PhotoAlbum.API.Controllers
         [HttpGet]
         [Route("list/shared")]
         [Authorize]
-        public virtual ActionResult<List<Photo>> ListShared()
+        public virtual ActionResult<List<Photo>> ListShared([FromQuery] string searchString)
         {
-            var result = _photoService.ListAllShared();
+            var result = _photoService.ListAllShared(searchString);
             return Ok(result);
         }
 

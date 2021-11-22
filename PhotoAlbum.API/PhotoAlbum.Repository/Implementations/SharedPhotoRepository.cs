@@ -30,14 +30,19 @@ namespace PhotoAlbum.Repository.Implementations
             _requestState = requestState;
         }
 
-        public List<Shared.Models.Photo> ListAllShared()
+        public List<Shared.Models.Photo> ListAllShared(string searchString = null)
         {
             var list = _db.SharedPhotos.AsNoTracking()
                 .Include(x => x.Photo)
-                .Where(x => x.UserId == _requestState.UserId)
-                .Select(x => x.Photo);
+                .ThenInclude(x=> x.Metadata)
+                .Where(x => x.UserId == _requestState.UserId).ToList();
 
-            return _autoMapper.Map<List<Shared.Models.Photo>>(list.ToList());
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                list = list.Where(x => x.Photo.Metadata.Geolocation.Contains(searchString, StringComparison.OrdinalIgnoreCase) || x.Photo.Metadata.Tags.Contains(searchString, StringComparison.OrdinalIgnoreCase)).ToList();
+            }
+
+            return _autoMapper.Map<List<Shared.Models.Photo>>(list.Select(x => x.Photo).ToList());
         }
 
         public List<Shared.Models.UserReference> ListAvailableUsers(Guid photoId)

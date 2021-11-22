@@ -12,8 +12,6 @@ export default (): React.ReactNode => {
     const [photos, setPhotos] = useState<any[]>([]);
     const [sharedPhotos, setSharedPhotos] = useState<any[]>([]);
 
-    const [searchString, setSearchString] = useState<any>(undefined);
-
     const [loadingPhotos, setLoadingPhotos] = useState<boolean>(true);
     const [loadingShared, setLoadingShared] = useState<boolean>(true);
 
@@ -22,7 +20,7 @@ export default (): React.ReactNode => {
         refreshSharedPhotos();
     }, []);
 
-    const refreshPhotos = async () => {
+    const refreshPhotos = async (searchString: any = undefined) => {
         try {
             const response = await listPhotos(searchString);
             if (isArray(response)) {
@@ -34,7 +32,7 @@ export default (): React.ReactNode => {
         setLoadingPhotos(false);
     }
 
-    const refreshSharedPhotos = async () => {
+    const refreshSharedPhotos = async (searchString: any = undefined) => {
         try {
             const response = await listSharedPhotos(searchString);
             if (isArray(response)) {
@@ -88,19 +86,21 @@ export default (): React.ReactNode => {
         <Button type='primary' icon={<VideoCameraAddOutlined />} onClick={handleAddClicked} >Add Photo</Button>
     </>
 
-    const handleSearch = debounce((e: any) => {
-        refreshPhotos();
-        refreshSharedPhotos();
+    const handleSearch = debounce((value: any) => {
+        refreshPhotos(value);
+        refreshSharedPhotos(value);
     }, 500)
 
     const renderSearch = (): JSX.Element => <>
         <ProFormText
             fieldProps={{
                 prefix: <SearchOutlined />,
-                onChange: e => setSearchString(e?.target?.value)
+                onChange: (e) => {
+                    handleSearch(e?.target?.value)
+                }
             }}
             placeholder='Search photo metadata'
-            addonAfter={<Button type={'primary'} onClick={handleSearch} >Search</Button>}
+        //addonAfter={<Button type={'primary'} onClick={handleSearch} >Search</Button>}
         />
     </>
 

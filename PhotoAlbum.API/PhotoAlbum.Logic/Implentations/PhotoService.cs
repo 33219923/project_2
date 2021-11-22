@@ -56,6 +56,18 @@ namespace PhotoAlbum.Logic.Implentations
             return result;
         }
 
+        public List<PhotoDto> Search(string searchString = null)
+        {
+            var result = _photoRepository.ListAll(searchString);
+
+            foreach (var photo in result)
+            {
+                photo.Data = _blobManager.DownloadPhoto(photo.Id);
+            }
+
+            return result;
+        }
+
         public override List<PhotoDto> ListAll()
         {
             var result = base.ListAll();
@@ -91,9 +103,9 @@ namespace PhotoAlbum.Logic.Implentations
             _db.SaveChanges();
         }
 
-        public List<PhotoDto> ListAllShared()
+        public List<PhotoDto> ListAllShared(string searchString = null)
         {
-            var result = _sharedPhotoRepository.ListAllShared();
+            var result = _sharedPhotoRepository.ListAllShared(searchString);
 
             foreach (var photo in result)
             {

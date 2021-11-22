@@ -8,7 +8,7 @@ namespace PhotoAlbum.Repository.Interfaces
 {
     public interface ISharedPhotoRepository : IBaseRepository<SharedPhotoDto, SharedPhotoModel>
     {
-        List<Shared.Models.Photo> ListAllShared();
+        List<Shared.Models.Photo> ListAllShared(string searchString = null);
         List<Shared.Models.UserReference> ListAvailableUsers(Guid photoId);
         List<Shared.Models.UserReference> ListSharedUsers(Guid photoId);
         Shared.Models.PhotoMetadata UpsertMetadata(Shared.Models.PhotoMetadata metadata);
