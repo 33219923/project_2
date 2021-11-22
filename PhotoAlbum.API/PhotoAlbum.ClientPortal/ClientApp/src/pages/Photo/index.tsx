@@ -154,7 +154,7 @@ export default (props: any): React.ReactNode => {
     const uploadProps = {
         name: 'file',
         action: handleAdditionalDocumentUpload,
-        accept: ".jpg, .jpeg, .tif, .png",
+        accept: ".bmp, .ico, .jpg, .jpeg, .tif, .gif, .png",
         onChange(info: any) {
             const { status } = info.file;
             if (status !== 'uploading') {

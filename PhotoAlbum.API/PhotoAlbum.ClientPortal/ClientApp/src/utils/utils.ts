@@ -3,24 +3,18 @@ export const determineMimeType = (filename: string) => {
   let mimeType = '';
 
   switch (extension) {
-    case '.xlsx':
-      mimeType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+    case '.bmp':
+      mimeType = 'image/bmp';
       break;
-    case '.xls':
-      mimeType = 'application/vnd.ms-excel';
-      break;
-    case '.doc':
-      mimeType = 'application/msword';
-      break;
-    case '.docx':
-      mimeType = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+    case '.ico':
+      mimeType = 'image/vnd.microsoft.icon';
       break;
     case '.jpg':
     case '.jpeg':
       mimeType = 'image/jpeg';
       break;
-    case '.msg':
-      mimeType = 'application/vnd.ms-outlook';
+    case '.gif':
+      mimeType = 'image/gif';
       break;
     case '.png':
       mimeType = 'image/png';
