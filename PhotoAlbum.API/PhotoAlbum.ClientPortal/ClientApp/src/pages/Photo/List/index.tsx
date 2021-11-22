@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
-import { Button, Card, Image, message, Tag, Typography } from 'antd';
+import { Button, Card, Image, Input, message, Tag, Typography } from 'antd';
 import { history } from 'umi';
-import { VideoCameraAddOutlined } from '@ant-design/icons';
+import { DeleteOutlined, SearchOutlined, VideoCameraAddOutlined } from '@ant-design/icons';
 import { listPhotos, listSharedPhotos } from '@/services/api';
-import { isArray } from 'lodash';
+import { debounce, isArray } from 'lodash';
 import { convertBlobToUrl, PresetColorType } from '@/utils/utils';
+import { ProFormText } from '@ant-design/pro-form';
 
 export default (): React.ReactNode => {
     const [photos, setPhotos] = useState<any[]>([]);
     const [sharedPhotos, setSharedPhotos] = useState<any[]>([]);
+
+    const [searchString, setSearchString] = useState<any>(undefined);
 
     const [loadingPhotos, setLoadingPhotos] = useState<boolean>(true);
     const [loadingShared, setLoadingShared] = useState<boolean>(true);
@@ -21,7 +24,7 @@ export default (): React.ReactNode => {
 
     const refreshPhotos = async () => {
         try {
-            const response = await listPhotos();
+            const response = await listPhotos(searchString);
             if (isArray(response)) {
                 setPhotos(response)
             }
@@ -33,7 +36,7 @@ export default (): React.ReactNode => {
 
     const refreshSharedPhotos = async () => {
         try {
-            const response = await listSharedPhotos();
+            const response = await listSharedPhotos(searchString);
             if (isArray(response)) {
                 setSharedPhotos(response)
             }
@@ -85,11 +88,28 @@ export default (): React.ReactNode => {
         <Button type='primary' icon={<VideoCameraAddOutlined />} onClick={handleAddClicked} >Add Photo</Button>
     </>
 
+    const handleSearch = debounce((e: any) => {
+        refreshPhotos();
+        refreshSharedPhotos();
+    }, 500)
+
+    const renderSearch = (): JSX.Element => <>
+        <ProFormText
+            fieldProps={{
+                prefix: <SearchOutlined />,
+                onChange: e => setSearchString(e?.target?.value)
+            }}
+            placeholder='Search photo metadata'
+            addonAfter={<Button type={'primary'} onClick={handleSearch} >Search</Button>}
+        />
+    </>
+
     return (
         <PageContainer
             title={'Photos'}
             extra={renderActions()}
         >
+            {renderSearch()}
             <Card title='My Photos' loading={loadingPhotos}>
                 {photos.length > 0 && photos.map(photo => renderPhoto(photo))}
                 {photos.length === 0 && renderNoPhotos()}

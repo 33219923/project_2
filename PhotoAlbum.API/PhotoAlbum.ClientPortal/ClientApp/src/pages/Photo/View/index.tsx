@@ -1,16 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
-import { Button, Card, message, Tag, Typography, Image, Popconfirm } from 'antd';
+import { Button, Card, message, Image, Popconfirm } from 'antd';
 import { useHistory, useModel } from 'umi';
 import styles from './index.less';
 import { deletePhoto, getPhoto } from '@/services/api';
-import { ArrowLeftOutlined, DeleteOutlined, FolderOutlined, FullscreenExitOutlined, ShareAltOutlined } from '@ant-design/icons';
+import { ArrowLeftOutlined, DeleteOutlined, DownloadOutlined, FolderOutlined, ShareAltOutlined } from '@ant-design/icons';
 import SharePhotoModal from '../Share';
 import Photo from '..';
-import { convertBlobToUrl, PresetColorType } from '@/utils/utils';
-
-const { Title, Text } = Typography;
-
+import { convertBlobToUrl, downloadFile } from '@/utils/utils';
 
 export default (props: any): React.ReactNode => {
     const { initialState, setInitialState } = useModel('@@initialState');
@@ -72,6 +69,11 @@ export default (props: any): React.ReactNode => {
         setLoading(false);
     }
 
+    const handleDownloadClicked = async () => {
+        if (photo?.data && photo?.filename)
+            downloadFile(photo.data, photo.filename)
+    }
+
 
     const renderActions = (): JSX.Element => <>
         {initialState?.currentUser?.id && photo?.createdByUserId === initialState?.currentUser?.id && <Button type='primary' icon={<FolderOutlined />} onClick={handleEditClicked} >Edit Photo</Button>}
@@ -86,12 +88,14 @@ export default (props: any): React.ReactNode => {
     </>
 
     const renderCardActions = (): JSX.Element => <>
+        {initialState?.currentUser?.id && photo?.createdByUserId === initialState?.currentUser?.id && <Button type='default' style={{ marginRight: 12 }} icon={<DownloadOutlined />} onClick={handleDownloadClicked} >Download Photo</Button>}
         {initialState?.currentUser?.id && photo?.createdByUserId === initialState?.currentUser?.id && <Button type='primary' icon={<ShareAltOutlined />} onClick={handleShareClicked} >Share Photo</Button>}
     </>
 
     return (
         <PageContainer
             extra={renderActions()}
+
         >
             <Card
                 extra={renderCardActions()}

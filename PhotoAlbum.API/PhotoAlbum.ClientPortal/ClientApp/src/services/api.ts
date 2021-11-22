@@ -135,11 +135,20 @@ export async function unshareAlbum(
   });
 }
 
-export async function listPhotos(options?: { [key: string]: any }) {
-  return request<API.CurrentUser>(`${API_URL}/api/photo/list`, {
-    method: 'GET',
-    ...(options || {}),
-  });
+export async function listPhotos(searchString?: string, options?: { [key: string]: any }) {
+  const base = `${API_URL}/api/photo/`;
+
+  return request<API.CurrentUser>(
+    searchString
+      ? `${base}search?${new URLSearchParams({
+          searchString: searchString || '',
+        }).toString()}`
+      : `${base}list`,
+    {
+      method: 'GET',
+      ...(options || {}),
+    },
+  );
 }
 
 export async function listPhotoAvailableUsers(photoId: string, options?: { [key: string]: any }) {
@@ -192,11 +201,19 @@ export async function unsharePhoto(
   });
 }
 
-export async function listSharedPhotos(options?: { [key: string]: any }) {
-  return request<API.CurrentUser>(`${API_URL}/api/photo/list/shared`, {
-    method: 'GET',
-    ...(options || {}),
-  });
+export async function listSharedPhotos(searchString: string, options?: { [key: string]: any }) {
+  const base = `${API_URL}/api/photo/list/shared`;
+  return request<API.CurrentUser>(
+    searchString
+      ? `${base}?${new URLSearchParams({
+          searchString: searchString,
+        }).toString()}`
+      : base,
+    {
+      method: 'GET',
+      ...(options || {}),
+    },
+  );
 }
 
 export async function getPhoto(id: string, options?: { [key: string]: any }) {

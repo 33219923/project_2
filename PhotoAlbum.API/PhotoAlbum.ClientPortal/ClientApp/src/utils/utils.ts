@@ -33,6 +33,16 @@ export const determineMimeType = (filename: string) => {
   return mimeType;
 };
 
+export const downloadFile = (blobData: any, filename: string) => {
+  let url = convertBlobToUrl(blobData, filename);
+
+  var link = window.document.createElement('a');
+  link.href = url;
+  link.download = filename;
+  link.target = '_blank';
+  link.click();
+};
+
 export const convertBlobToUrl = (blobData: any, filename: string) => {
   let mimeType = determineMimeType(filename);
 
