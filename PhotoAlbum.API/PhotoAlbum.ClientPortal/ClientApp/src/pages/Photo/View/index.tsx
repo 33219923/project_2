@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
-import { Button, Card, message, Tag, Typography, Image } from 'antd';
+import { Button, Card, message, Tag, Typography, Image, Popconfirm } from 'antd';
 import { useHistory, useModel } from 'umi';
 import styles from './index.less';
-import { getPhoto } from '@/services/api';
-import { ArrowLeftOutlined, FolderOutlined, FullscreenExitOutlined, ShareAltOutlined } from '@ant-design/icons';
+import { deletePhoto, getPhoto } from '@/services/api';
+import { ArrowLeftOutlined, DeleteOutlined, FolderOutlined, FullscreenExitOutlined, ShareAltOutlined } from '@ant-design/icons';
 import SharePhotoModal from '../Share';
 import Photo from '..';
 import { convertBlobToUrl, PresetColorType } from '@/utils/utils';
@@ -60,9 +60,28 @@ export default (props: any): React.ReactNode => {
         setShareModalState({ visible: true })
     }
 
+    const handleDeleteClicked = async () => {
+        setLoading(true);
+        try {
+            await deletePhoto(photo.id);
+            message.success("Successfully deleted the photo!");
+            history.push(`/photos`)
+        } catch (error: any) {
+            message.error("Failed to delete the photo!");
+        }
+        setLoading(false);
+    }
+
 
     const renderActions = (): JSX.Element => <>
         {initialState?.currentUser?.id && photo?.createdByUserId === initialState?.currentUser?.id && <Button type='primary' icon={<FolderOutlined />} onClick={handleEditClicked} >Edit Photo</Button>}
+        {initialState?.currentUser?.id && photo?.createdByUserId === initialState?.currentUser?.id && <Popconfirm
+            title="Are you sure you want to delete this photo?"
+            onConfirm={handleDeleteClicked}
+            okText="Yes"
+            cancelText="Cancel"
+        >
+            <Button type='default' icon={<DeleteOutlined />} >Delete Photo</Button></Popconfirm>}
         <Button type='default' icon={<ArrowLeftOutlined />} onClick={() => history.push(`/photos`)}>Back</Button>
     </>
 

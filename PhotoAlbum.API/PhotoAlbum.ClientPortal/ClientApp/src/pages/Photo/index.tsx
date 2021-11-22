@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
-import { Button, Card, Form, message, Image } from 'antd';
+import { Button, Card, Form, message, Image, Popconfirm } from 'antd';
 import { useHistory, useIntl, useModel } from 'umi';
 import styles from './index.less';
 import { addPhoto, deletePhoto, getPhoto, updatePhoto, upsertMetadata } from '@/services/api';
@@ -105,7 +105,13 @@ export default (props: any): React.ReactNode => {
     }
 
     const renderActions = (): JSX.Element => <>
-        {mode === 'edit' && initialState?.currentUser?.id && photo?.createdByUserId === initialState?.currentUser?.id && <Button type='primary' icon={<DeleteOutlined />} onClick={handleDeleteClicked}>Delete Photo</Button>}
+        {mode === 'edit' && initialState?.currentUser?.id && photo?.createdByUserId === initialState?.currentUser?.id && <Popconfirm
+            title="Are you sure you want to delete this photo?"
+            onConfirm={handleDeleteClicked}
+            okText="Yes"
+            cancelText="Cancel"
+        >
+            <Button type='default' icon={<DeleteOutlined />} >Delete Photo</Button></Popconfirm>}
         <Button type='default' icon={<ArrowLeftOutlined />} onClick={handleCancelClicked}>Back</Button>
     </>
 
@@ -199,7 +205,7 @@ export default (props: any): React.ReactNode => {
                             return <>
                                 <Button loading={loading} disabled={loading} type='primary' icon={<ThunderboltOutlined />}
                                     style={{ width: '100%', marginTop: 10 }}
-                                    onClick={() => { form.submit() }}>{mode === 'edit' ? 'Update' : 'Create'}</Button>
+                                    onClick={() => { form.submit() }}>{mode === 'edit' ? 'Update' : 'Add'}</Button>
                                 <Button type='default' icon={<CloseOutlined />} style={{ width: '100%', marginTop: 10 }}
                                     onClick={handleCancelClicked}>Cancel</Button>
                             </>
