@@ -79,5 +79,32 @@ namespace PhotoAlbum.API.Controllers
             return Ok(result);
         }
 
+        [HttpGet]
+        [Route("album/{albumId}")]
+        [Authorize]
+        public ActionResult<List<Photo>> GetPhotosForAlbum([FromRoute] Guid albumId)
+        {
+            var result = _photoService.GetPhotosForAlbum(albumId);
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("available")]
+        [Authorize]
+        public ActionResult<List<Photo>> GetAvailablePhotos()
+        {
+            var result = _photoService.GetAvailable();
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("relink")]
+        [Authorize]
+        public ActionResult UpsertPhoto([FromBody] PhotoRelink relink)
+        {
+            _photoService.RelinkPhotos(relink);
+            return Ok();
+        }
+
     }
 }

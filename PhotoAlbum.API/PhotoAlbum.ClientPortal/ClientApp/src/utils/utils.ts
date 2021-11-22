@@ -1,6 +1,5 @@
 export const determineMimeType = (filename: string) => {
   let extension = filename.substring(filename.lastIndexOf('.')).toLocaleLowerCase();
-  console.log('Extension=> ', extension);
   let mimeType = '';
 
   switch (extension) {

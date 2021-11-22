@@ -7,5 +7,6 @@ namespace PhotoAlbum.Repository.Interfaces
 {
     public interface IPhotoRepository : IBaseRepository<PhotoDto, PhotoModel>
     {
+        void RelinkPhotos(Shared.Models.PhotoRelink relink);
     }
 }

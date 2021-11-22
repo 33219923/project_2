@@ -7,11 +7,12 @@ import { listPhotos, listSharedPhotos } from '@/services/api';
 import { isArray } from 'lodash';
 import { convertBlobToUrl, PresetColorType } from '@/utils/utils';
 
-const { Title, Text } = Typography;
-
 export default (): React.ReactNode => {
     const [photos, setPhotos] = useState<any[]>([]);
     const [sharedPhotos, setSharedPhotos] = useState<any[]>([]);
+
+    const [loadingPhotos, setLoadingPhotos] = useState<boolean>(true);
+    const [loadingShared, setLoadingShared] = useState<boolean>(true);
 
     useEffect(() => {
         refreshPhotos();
@@ -27,6 +28,7 @@ export default (): React.ReactNode => {
         } catch (error) {
             message.error("Unable to refresh the photos!");
         }
+        setLoadingPhotos(false);
     }
 
     const refreshSharedPhotos = async () => {
@@ -38,6 +40,7 @@ export default (): React.ReactNode => {
         } catch (error) {
             message.error("Unable to refresh the shared albums!");
         }
+        setLoadingShared(false);
     }
 
     const renderNoPhotos = (): JSX.Element => <>NO PHOTOS</>
@@ -87,12 +90,12 @@ export default (): React.ReactNode => {
             title={'Photos'}
             extra={renderActions()}
         >
-            <Card title='My Photos'>
+            <Card title='My Photos' loading={loadingPhotos}>
                 {photos.length > 0 && photos.map(photo => renderPhoto(photo))}
                 {photos.length === 0 && renderNoPhotos()}
             </Card>
             <br />
-            <Card title='Photos Shared With Me'>
+            <Card title='Photos Shared With Me' loading={loadingShared}>
                 {sharedPhotos.length > 0 && sharedPhotos.map(photo => renderPhoto(photo))}
                 {sharedPhotos.length === 0 && renderNoPhotos()}
             </Card>

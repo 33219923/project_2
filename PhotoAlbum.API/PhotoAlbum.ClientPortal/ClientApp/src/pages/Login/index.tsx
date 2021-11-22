@@ -88,6 +88,7 @@ const Login: React.FC = () => {
           }}
         >
           <ProFormText
+            label='Username'
             name="username"
             fieldProps={{
               size: 'large',
@@ -104,6 +105,7 @@ const Login: React.FC = () => {
             ]}
           />
           <ProFormText.Password
+            label='Password'
             name="password"
             fieldProps={{
               size: 'large',

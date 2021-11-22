@@ -14,6 +14,8 @@ namespace PhotoAlbum.Logic.Implentations
     public class PhotoService : BaseService<PhotoDto, PhotoModel>, IPhotoService
     {
         private readonly ISharedPhotoRepository _sharedPhotoRepository;
+        private readonly IRequestState _requestState;
+        private readonly IPhotoRepository _photoRepository;
         private readonly IBlobManager _blobManager;
         private readonly ApplicationDbContext _db;
 
@@ -26,8 +28,10 @@ namespace PhotoAlbum.Logic.Implentations
             ) : base(logger, repository, requestState)
         {
             _db = db;
+            _photoRepository = repository;
             _sharedPhotoRepository = sharedPhotoRepository;
             _blobManager = blobManager;
+            _requestState = requestState;
         }
 
         public override PhotoDto Add(PhotoDto dto)
@@ -87,7 +91,7 @@ namespace PhotoAlbum.Logic.Implentations
         {
             var result = _sharedPhotoRepository.ListAllShared();
 
-            foreach(var photo in result)
+            foreach (var photo in result)
             {
                 photo.Data = _blobManager.DownloadPhoto(photo.Id);
             }
@@ -122,6 +126,36 @@ namespace PhotoAlbum.Logic.Implentations
             var result = _sharedPhotoRepository.UpsertMetadata(metadata);
             _db.SaveChanges();
             return result;
+        }
+
+        public List<PhotoDto> GetPhotosForAlbum(Guid albumId)
+        {
+            var result = _photoRepository.ListAll(x => x.AlbumId == albumId);
+
+            foreach (var photo in result)
+            {
+                photo.Data = _blobManager.DownloadPhoto(photo.Id);
+            }
+
+            return result;
+        }
+
+        public List<PhotoDto> GetAvailable()
+        {
+            var result = _photoRepository.ListAll(x => x.CreatedByUserId == _requestState.UserId && x.AlbumId.HasValue == false);
+
+            foreach (var photo in result)
+            {
+                photo.Data = _blobManager.DownloadPhoto(photo.Id);
+            }
+
+            return result;
+        }
+
+        public void RelinkPhotos(PhotoRelink relink)
+        {
+            _photoRepository.RelinkPhotos(relink);
+            _db.SaveChanges();
         }
     }
 }

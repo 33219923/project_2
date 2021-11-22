@@ -249,3 +249,28 @@ export async function upsertMetadata(body: any, options?: { [key: string]: any }
     ...(options || {}),
   });
 }
+
+export async function getPhotosForAlbum(id: string, options?: { [key: string]: any }) {
+  return request<any>(`${API_URL}/api/photo/album/${id}`, {
+    method: 'GET',
+    ...(options || {}),
+  });
+}
+
+export async function getAvailablePhotos(options?: { [key: string]: any }) {
+  return request<any>(`${API_URL}/api/photo/available`, {
+    method: 'GET',
+    ...(options || {}),
+  });
+}
+
+export async function relinkPhotos(body: any, options?: { [key: string]: any }) {
+  return request<string>(`${API_URL}/api/photo/relink`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}

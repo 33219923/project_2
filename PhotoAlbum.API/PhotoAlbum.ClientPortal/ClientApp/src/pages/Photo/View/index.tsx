@@ -76,6 +76,7 @@ export default (props: any): React.ReactNode => {
         >
             <Card
                 extra={renderCardActions()}
+                loading={loading}
             >
                 <div style={{ textAlign: 'center' }}>
                     <Image
@@ -85,12 +86,12 @@ export default (props: any): React.ReactNode => {
                     />
                 </div>
                 <br />
-                <div style={{ fontSize: '0.8em' }}>
-                    <span style={{ fontWeight: 'bold' }}>File:</span> {photo?.filename}
+                <div style={{ fontSize: '0.8em', textAlign: 'left' }}>
+                    <span style={{ fontWeight: 'bold' }}>File:</span> {photo?.filename || 'N/A'}
                     <br />
-                    <span style={{ fontWeight: 'bold' }}>Geolocation:</span> {photo?.metadata?.geolocation}
+                    <span style={{ fontWeight: 'bold' }}>Geolocation:</span> {photo?.metadata?.geolocation || 'N/A'}
                     <br />
-                    <span style={{ fontWeight: 'bold' }}>Tags: </span> {photo?.metadata?.tags?.map((tag: any, index: number) => <Tag color={PresetColorType[index % PresetColorType.length]}>{tag}</Tag>)}
+                    <span style={{ fontWeight: 'bold' }}>Tags: </span> {photo?.metadata?.tags?.join(", ") || 'N/A'}
                 </div>
             </Card>
             {shareModalState.visible && <SharePhotoModal photoId={photo?.id} name={photo?.filename} onCancel={() => { setShareModalState({ visible: false }) }} />}

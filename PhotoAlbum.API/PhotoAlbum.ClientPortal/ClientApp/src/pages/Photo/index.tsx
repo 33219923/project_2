@@ -15,7 +15,6 @@ export default (props: any): React.ReactNode => {
 
     const [fileList, setFileList] = useState<any[]>([]);
 
-    const intl = useIntl();
     const [form] = Form.useForm();
     const history = useHistory();
 
@@ -172,7 +171,7 @@ export default (props: any): React.ReactNode => {
         <PageContainer
             extra={renderActions()}
         >
-            <Card >
+            <Card loading={loading}>
                 <div style={{ textAlign: 'center' }}>
                     <Image
                         style={{ width: 400 }}
@@ -211,6 +210,7 @@ export default (props: any): React.ReactNode => {
                     }}
                 >
                     <ProFormText
+                        label='Geolocation'
                         disabled={loading}
                         name="geolocation"
                         fieldProps={{
@@ -219,6 +219,7 @@ export default (props: any): React.ReactNode => {
                         placeholder='Geolocation'
                     />
                     <ProFormSelect
+                        label='Tags'
                         mode={'tags'}
                         disabled={loading}
                         name="tags"

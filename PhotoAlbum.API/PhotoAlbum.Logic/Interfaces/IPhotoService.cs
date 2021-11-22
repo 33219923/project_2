@@ -16,5 +16,8 @@ namespace PhotoAlbum.Logic.Interfaces
         List<UserReference> ListAvailableUsers(Guid photoId);
         List<UserReference> ListSharedUsers(Guid photoId);
         PhotoMetadata UpsertMetadata(PhotoMetadata metaData);
+        List<Photo> GetPhotosForAlbum(Guid albumId);
+        List<Photo> GetAvailable();
+        void RelinkPhotos(PhotoRelink relink);
     }
 }
