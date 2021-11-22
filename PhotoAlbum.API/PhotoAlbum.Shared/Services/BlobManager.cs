@@ -14,6 +14,7 @@ namespace PhotoAlbum.Shared.Services
     public interface IBlobManager
     {
         void UploadPhoto(Guid id, byte[] file);
+        void DeletePhoto(Guid id);
         byte[] DownloadPhoto(Guid id);
     }
 
@@ -43,6 +44,13 @@ namespace PhotoAlbum.Shared.Services
             {
                 blobServiceClient.CreateBlobContainer(containerName);
             }
+        }
+
+        public void DeletePhoto(Guid id)
+        {
+            BlobServiceClient blobClient = new BlobServiceClient(_connectionString);
+            BlobContainerClient containerClient = blobClient.GetBlobContainerClient(containerName);
+            containerClient.DeleteBlobIfExists(id.ToString());
         }
 
         public void UploadPhoto(Guid id, byte[] file)

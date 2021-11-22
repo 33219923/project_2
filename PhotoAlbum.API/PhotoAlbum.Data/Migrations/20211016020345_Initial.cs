@@ -199,7 +199,7 @@ namespace PhotoAlbum.Data.Migrations
                         column: x => x.AlbumId,
                         principalTable: "Albums",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.SetNull);
                     table.ForeignKey(
                         name: "FK_Photos_AspNetUsers_CreatedByUserId",
                         column: x => x.CreatedByUserId,

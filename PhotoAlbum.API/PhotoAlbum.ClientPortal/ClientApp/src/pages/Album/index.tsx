@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
-import { Button, Card, Form, message, Image } from 'antd';
+import { Button, Card, Form, message, Image, Popconfirm } from 'antd';
 import { useHistory, useIntl, useModel } from 'umi';
 import styles from './index.less';
 import { addAlbum, deleteAlbum, getAlbum, getAvailablePhotos, getPhotosForAlbum, relinkPhotos, updateAlbum } from '@/services/api';
@@ -120,7 +120,13 @@ export default (props: any): React.ReactNode => {
     }
 
     const renderActions = (): JSX.Element => <>
-        {mode === 'edit' && initialState?.currentUser?.id && album?.createdByUserId === initialState?.currentUser?.id && <Button type='primary' icon={<DeleteOutlined />} onClick={handleDeleteClicked}>Delete Album</Button>}
+        {mode === 'edit' && initialState?.currentUser?.id && album?.createdByUserId === initialState?.currentUser?.id && <Popconfirm
+            title="Are you sure you want to delete this album?"
+            onConfirm={handleDeleteClicked}
+            okText="Yes"
+            cancelText="Cancel"
+        >
+            <Button type='default' icon={<DeleteOutlined />} >Delete Album</Button></Popconfirm>}
         <Button type='default' icon={<ArrowLeftOutlined />} onClick={handleCancelClicked}>Back</Button>
     </>
 

@@ -71,6 +71,10 @@ namespace PhotoAlbum.Logic.Implentations
         public override void Delete(Guid id)
         {
             base.Delete(id);
+
+            //Delete to storage
+            _blobManager.DeletePhoto(id);
+
             _db.SaveChanges();
         }
 

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
-import { Button, Card, Form, message, Typography, Image } from 'antd';
+import { Button, Card, Form, message, Typography, Image, Popconfirm } from 'antd';
 import { useHistory, useIntl, useModel } from 'umi';
 import styles from './index.less';
-import { addAlbum, getAlbum, getPhotosForAlbum, updateAlbum } from '@/services/api';
+import { addAlbum, deleteAlbum, getAlbum, getPhotosForAlbum, updateAlbum } from '@/services/api';
 import ProForm, { ProFormText } from '@ant-design/pro-form';
-import { ArrowLeftOutlined, CloseOutlined, FolderOutlined, ShareAltOutlined, ThunderboltOutlined } from '@ant-design/icons';
+import { ArrowLeftOutlined, CloseOutlined, DeleteOutlined, FolderOutlined, ShareAltOutlined, ThunderboltOutlined } from '@ant-design/icons';
 import ShareAlbumModal from '../Share';
 import { convertBlobToUrl } from '@/utils/utils';
 
@@ -65,9 +65,27 @@ export default (props: any): React.ReactNode => {
         setShareModalState({ visible: true })
     }
 
+    const handleDeleteClicked = async () => {
+        setLoading(true);
+        try {
+            await deleteAlbum(album.id);
+            message.success("Successfully deleted the album!");
+            history.push(`/albums`)
+        } catch (error: any) {
+            message.error("Failed to delete the album!");
+        }
+        setLoading(false);
+    }
 
     const renderActions = (): JSX.Element => <>
         {initialState?.currentUser?.id && album?.createdByUserId === initialState?.currentUser?.id && <Button type='primary' icon={<FolderOutlined />} onClick={handleEditClicked} >Edit Album</Button>}
+        {initialState?.currentUser?.id && album?.createdByUserId === initialState?.currentUser?.id && <Popconfirm
+            title="Are you sure you want to delete this album?"
+            onConfirm={handleDeleteClicked}
+            okText="Yes"
+            cancelText="Cancel"
+        >
+            <Button type='default' icon={<DeleteOutlined />} >Delete Album</Button></Popconfirm>}
         <Button type='default' icon={<ArrowLeftOutlined />} onClick={() => history.push(`/albums`)}>Back</Button>
     </>
 
